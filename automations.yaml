@@ -1,0 +1,178 @@
+- id: '4348347893743897453'
+  alias: Freezer Door Check
+# poll every xx minutes to check status of the basement door   
+  trigger:
+    minutes: /1
+    platform: time_pattern
+  condition: 
+  - condition: template
+    value_template: "{{ is_state('binary_sensor.freezer', 'on') }}"
+  action:
+  - service: notify.pushbullet
+    data:
+      title: Freezer Door is Open
+      message: The freezer door is open
+      target: device/Larry S7
+  - service: notify.alexa_media
+    data:
+      target:
+      - media_player.kitchen_echo
+      - media_player.bedroom_echo
+      data:
+        type: announce
+      message: "The freezer door is open" 
+#
+- id: '434834789374389743'
+  alias: Basement Door Check
+# poll every xx minutes to check status of the basement door   
+  trigger:
+    minutes: /15
+    platform: time_pattern
+  condition: 
+  - condition: template
+    value_template: "{{ is_state('binary_sensor.basement', 'on') }}"
+  action:
+  - service: notify.pushbullet
+    data:
+      title: Basement Door Open
+      message: The basement door is open
+      target: device/Larry S7
+  - service: notify.alexa_media
+    data:
+      target:
+      - media_player.kitchen_echo
+      - media_player.bedroom_echo
+      data:
+        type: announce
+      message: "The basement door is open" 
+#
+- id: '4348347893743897432'
+  alias: Rear Door Check
+  trigger:
+    minutes: /15
+    platform: time_pattern
+  condition: 
+    condition: and
+    conditions:
+      - condition: template
+        value_template: "{{ is_state('binary_sensor.rear_doors', 'on') }}"
+      - condition: time
+        after: '21:00:00'
+        before: '23:59:59'
+  action:
+  - service: notify.pushbullet
+    data:
+      title: Rear Door is Open
+      message: One of the back doors is open
+      target: device/Larry S7
+  - service: notify.alexa_media
+    data:
+      target:
+      - media_player.kitchen_echo
+      - media_player.bedroom_echo
+      data:
+        type: announce
+      message: "A rear door is open"      
+#
+#
+- id: '43483478937438974322'
+  alias: Front Door Check
+  trigger:
+    minutes: /15
+    platform: time_pattern
+  condition: 
+    condition: and
+    conditions:
+      - condition: template
+        value_template: "{{ is_state('binary_sensor.front_doors', 'on') }}"
+      - condition: time
+        after: '21:00:00'
+        before: '23:59:59'        
+  action:
+  - service: notify.pushbullet
+    data:
+      title: Front Door is Open
+      message: One of the front doors is open
+      target: device/Larry S7
+  - service: notify.alexa_media
+    data:
+      target:
+      - media_player.kitchen_echo
+      - media_player.bedroom_echo
+      data:
+        type: announce
+      message: "A front door is open"      
+#
+- alias: home assistant reboot
+  trigger:
+    platform: homeassistant
+    event: start
+  action:
+  - service: notify.pushbullet
+    data:
+      title: Home assistant started
+      message: Home assistant started!
+      target: device/Larry S7
+      
+  id: 445f04a31d194051881be8b5c4c2ab28
+- alias: nobody is home and the garage door is open
+  initial_state: true
+  trigger:
+    platform: event
+    event_type: abode_automation
+    event_data:
+      device_name: Nobody is Home
+  condition:
+  - condition: state
+    entity_id: cover.kennedy_garage
+    state: open
+  action:
+  - service: notify.pushbullet
+    data:
+      title: Home Assistant Alert!
+      message: No one is home and the garage door is open.  Closing door now.
+      target: device/Larry S7
+  - service: cover.close_cover
+    entity_id: cover.kennedy_garage
+#
+#
+#
+
+#
+#
+#
+  id: 494a550140f74ebf83ed5bca2dac4c9e
+- alias: Notify CallerID
+  trigger:
+    platform: state
+    entity_id: sensor.modem_callerid
+    to: callerid
+  action:
+  - service: notify.pushbullet
+    data:
+      title: Home Assistant Alert!
+      message: '''Call from {{ state_attr(''sensor.modem_callerid'',''cid_name'')
+        }} at {{ state_attr(''sensor.modem_callerid'',''cid_number'') }}''
+
+        '
+      target: device/Larry S7
+  - service: notify.alexa_media
+    data:
+      target:
+      - media_player.kitchen_echo
+      data:
+        type: announce
+      message: '"Call from... {{ state_attr(''sensor.modem_callerid'', ''cid_name'')}}"'
+      
+#  id: d63195267b414e46b9660fcc2958ecfa
+#- alias: abode automation
+#  trigger:
+#    platform: event
+#    event_type: abode_automation
+#  action:
+#  - service: notify.pushbullet
+#    data_template:
+#      target: device/Larry S7
+#      title: Home Assistant
+#      message: '"Abode event detected: {{trigger.event.data.device_name}}"'
+#

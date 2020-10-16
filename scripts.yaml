@@ -1,0 +1,19 @@
+test_pushbullet:
+  alias: test_pushbullet
+  sequence:
+  - data:
+      message: this is a test message
+      title: test alert!
+    service: notify.pushbullet
+#
+#
+test_echo_notify:
+  alias: Echo Notify Test
+  sequence:
+    - service: notify.alexa_media
+      data:
+        target:
+          - media_player.kitchen_echo
+        data:
+          type: announce
+        message: "This is a test!"

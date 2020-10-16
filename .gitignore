@@ -1,0 +1,20 @@
+#
+# ignore all
+*
+# keep these files
+!.gitignore
+!*.md
+!*.yaml
+#
+#
+#dont keep these files
+#
+.storage
+.cloud
+.google.token
+ip_bans.yaml
+secrets.yaml
+known_devices.yaml
+#custom_components/*
+#www/*
+#hacs/*

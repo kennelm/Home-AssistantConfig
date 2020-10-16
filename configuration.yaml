@@ -1,0 +1,116 @@
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+#
+#cloud:
+#
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+# http:
+#   base_url: example.duckdns.org:8123
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+group: !include groups.yaml
+#automation: !include automations.yaml
+#config:
+script: !include scripts.yaml
+#
+logger:
+   default: debug
+#
+rachio:
+  api_key: !secret rachio_key
+#
+automation: !include automations.yaml
+#
+#amcrest:
+#  - host: 192.168.1.131
+#    port: 8080
+#    name: kitchen
+#    username: !secret amcrest_user 
+#    password: !secret amcrest_pass
+#
+#  - host: 192.168.1.132
+#    port: 8080
+#    name: front    
+#    username: !secret amcrest_admin
+#    password: !secret amcrest_pass
+    
+#myq garage door opener
+cover:
+  - platform: myq
+    username: !secret myq_user
+    password: !secret myq_pass 
+#    type: chamberlain
+
+# Abode alarm system
+abode:
+   username: !secret abode_user
+   password: !secret abode_pass 
+#  name: "Abode Alarm System"
+#  polling: false
+#
+# pushbullet notification via SMS
+notify:
+  - platform: pushbullet
+    name: pushbullet
+    api_key: !secret pushbullet_api
+#
+# Example configuration.yaml entry
+sensor:
+  - platform: modem_callerid
+    device: /dev/ttyACM0
+# - platform: moon
+# - platform: cpuspeed
+# - platform: systemmonitor
+#    resources:
+#      - type: disk_use_percent
+#        arg: /home
+#      - type: memory_free
+#
+  - platform: waze_travel_time
+    origin: !secret home_loc
+    destination: !secret larry_work
+    region: 'US'
+    name: Larry-Work
+#    id: '589340583490859034859034859048'
+#  
+  - platform: waze_travel_time
+    origin: !secret home_loc
+    destination: !secret cindy_work
+    region: 'US'
+    name: Cindy-Work
+#    id: '589340583490856546456546559048'
+#    
+#
+nexia:
+  username: !secret nexia_user
+  password: !secret nexia_pass 
+#
+# Example configuration.yaml entry
+climate:
+  - platform: honeywell
+    username: !secret tcc_user
+    password: !secret tcc_pass  
+#
+alexa_media:
+  accounts:
+    - email: !secret amazon_user 
+      password: !secret amazon_pass  
+      url: amazon.com
+#
+#
+shell_command:
+#  caller_id: cid.sh '{{ states.modem_callerid|selectattr('attributes.cid_name') }}'  
+  caller_id: /config/cid.sh '{{ state_attr('sensor.modem_callerid','cid_name') }}'  
+#
+###
+#binary_sensor:
+#  - platform: template
+#    sensors:
+#      basement:
+#        value_template: >-
+#          {{ is_state('binary_sensor.basement', 'on') }}
+###
