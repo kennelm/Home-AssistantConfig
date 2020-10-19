@@ -1,0 +1,356 @@
+#
+title: Home
+resources:
+  - url: /hacsfiles/button-card/button-card.js
+    type: module
+  - url: /local/simple-thermostat.js?v=1
+    type: module    
+views:
+  - path: default_view
+    title: Home
+    panel: false
+    badges:
+      - entity: person.larry
+    cards:
+      - entities:
+          - entity: device_tracker.life360_larry_k
+          - entity: device_tracker.life360_cindy
+          - entity: device_tracker.life360_lacey_kennedy
+          - entity: device_tracker.life360_beth
+        type: entities
+      - entity: sensor.epson_workforce_545
+        type: entity
+      - entities:
+          - binary_sensor.freezer
+        type: entities
+      - type: horizontal-stack
+        cards:
+          - type: glance
+            entities:
+              - entity: sensor.epson_workforce_545_black_ink
+                name: black
+              - entity: sensor.epson_workforce_545_cyan_ink
+                name: cyan
+              - entity: sensor.epson_workforce_545_magenta_ink
+                name: magenta
+              - entity: sensor.epson_workforce_545_yellow_ink
+                name: yellow
+            show_name: true
+            title: Epson Workforce 545
+      - entities:
+          - entity: binary_sensor.rachio_eb6286_online
+          - entity: switch.rachio_eb6286_in_standby_mode
+        title: Sprinkler
+        type: entities
+        
+
+  - path: Custom
+    title: Custom
+    panel: true
+    cards:
+      - type: vertical-stack
+        cards:
+
+          - type: horizontal-stack
+            cards:
+              - type: "custom:button-card"
+                color_type: blank-card            
+              - type: "custom:button-card"
+                entity: switch.living_room_light 
+                icon: mdi:sofa
+                name: Living Room
+                tap_action:
+                  action: toggle
+                state:
+                - value: "on"
+                  color: rgb(255, 255, 100)
+                - value: "off"
+                  color: rgb(255, 255, 255)
+                styles:
+                  card:
+                  - height: 150px  
+                  - width: 150px
+        
+              - type: "custom:button-card"
+                entity: switch.dining_light
+                icon: mdi:ceiling-light
+                name: Dining Room
+                tap_action:
+                  action: toggle
+                state:
+                - value: "on"
+                  color: rgb(255, 255, 100)
+                - value: "off"
+                  color: rgb(255, 255, 255) 
+                styles:
+                  card:          
+                  - height: 150px  
+                  - width: 150px  
+        
+              - type: "custom:button-card"
+                entity: switch.laundry_room_light
+                icon: mdi:washing-machine
+                name: Laundry Room
+                tap_action:
+                  action: toggle
+                state:
+                  - value: "on" 
+                    color: rgb(255, 255, 100)
+                  - value: "off"
+                    color: rgb(255, 255, 255) 
+                styles:
+                  card:          
+                    - height: 150px  
+                    - width: 150px 
+    
+              - type: "custom:button-card"
+                entity: switch.garage_light
+                icon: mdi:home-lightbulb
+                name: Garage Front
+                tap_action:
+                  action: toggle
+                state:
+                - value: "on"
+                  color: rgb(255, 255, 100)
+                - value: "off"
+                  color: rgb(255, 255, 255)             
+                styles:
+                  card:          
+                  - height: 150px  
+                  - width: 150px   
+            
+              - type: "custom:button-card"
+                entity: lock.front_door
+                icon: mdi:door
+                name: Front Door
+                tap_action:
+                  action: toggle
+                state:
+                - value: "unlocked"
+                  color: rgb(255, 0, 0)
+                - value: "locked"
+                  color: rgb(0, 255, 0)  
+                styles:
+                  card:          
+                  - height: 150px  
+                  - width: 150px
+                  
+              - type: "custom:button-card"
+                entity: cover.kennedy_garage  
+                name: Garage Door
+                tap_action:
+                  action: toggle
+                state:
+                - value: "open"
+                  name: Garage Open
+                  image: /local/garage_open.png
+                  color: rgb(255, 0, 0)                    
+                - value: "closed"
+                  name: Garage Closed
+                  image: /local/garage_open.png
+                  color: rgb(0, 255, 0)                                      
+                styles:
+                  card:
+                  - height: 150px
+                  - width: 150px
+                  
+              - type: "custom:button-card"
+                entity: alarm_control_panel.abode_alarm
+                state:
+                - value: "disarmed"
+                  name: Disarmed
+                  color: rgb(50, 205, 50)                  
+                - value: "armed_away"
+                  name: Away
+                  color: rgb(255, 0, 0)
+                - value: "armed_home"
+                  name: Home
+                  color: rgb(255, 0, 0)
+                styles:
+                  card:
+                  - height: 150px
+                  - width: 150px              
+                  
+              - type: "custom:button-card"
+                color_type: blank-card  
+#
+#           next vertical box                
+          - type: horizontal-stack
+            cards:
+              - type: glance
+                entities:
+                  - entity: binary_sensor.front_doors
+                  - entity: binary_sensor.rear_doors
+                  - entity: binary_sensor.basement
+                  - entity: binary_sensor.freezer
+                  
+                title: Doors
+              - type: glance
+                entities:
+                  - entity: binary_sensor.kitchen
+                  - entity: binary_sensor.dr_lr_bath
+                  - entity: binary_sensor.family_office
+                title: Windows
+              - type: glance
+                entities:
+                  - entity: binary_sensor.family_glass
+                  - entity: binary_sensor.foyer_glass
+                  - entity: binary_sensor.basement_motion
+                title: Motion/Sound
+                
+          - type: horizontal-stack
+            cards:    
+              - type: custom:simple-thermostat
+                entity: climate.thermostat_1_nativezone
+                step_layout: row
+                decimals: 0
+                name: Downstairs
+                icon: mdi:thermostat
+                control: true 
+                
+              - type: alarm-panel
+                states:
+                  - arm_home
+                  - arm_away
+                  - disarm
+                entity: alarm_control_panel.abode_alarm
+        
+              - type: custom:simple-thermostat
+                entity: climate.thermostat
+                step_layout: row
+                decimals: 0
+                name: Upstairs
+                icon: mdi:thermostat
+                control: true 
+
+
+                
+  - title: Climate
+    path: climate
+    badges: []
+    cards:
+
+      - type: custom:simple-thermostat
+        entity: climate.thermostat
+        step_layout: row
+        decimals: 0
+        name: Upstairs
+        icon: mdi:thermostat
+        control: false 
+      - type: custom:simple-thermostat
+        entity: climate.thermostat_1_nativezone
+        step_layout: row
+        decimals: 0
+        name: Downstairs
+        icon: mdi:thermostat
+        control: false         
+        
+  - title: Traffic
+    path: traffic
+    badges: []
+    cards:
+      - type: map
+        entities:
+          - device_tracker.life360_larry_k
+          - device_tracker.life360_cindy
+        hours_to_show: 0
+      - type: glance
+        entities:
+          - entity: sensor.larry_work
+          - entity: sensor.cindy_work
+  
+     
+  - title: Security
+    path: security
+    badges: []
+    cards:
+      - type: alarm-panel
+        states:
+          - arm_home
+          - arm_away
+          - disarm
+        entity: alarm_control_panel.abode_alarm
+      - type: horizontal-stack
+        cards:
+          - type: glance
+            entities:
+              - entity: binary_sensor.front_doors
+              - entity: binary_sensor.rear_doors
+              - entity: binary_sensor.basement
+            title: Doors
+      - type: horizontal-stack
+        cards:
+          - type: glance
+            entities:
+              - entity: binary_sensor.kitchen
+              - entity: binary_sensor.dr_lr_bath
+              - entity: binary_sensor.family_office
+            title: Windows
+      - type: horizontal-stack
+        cards:
+          - type: glance
+            entities:
+              - entity: binary_sensor.family_glass
+              - entity: binary_sensor.foyer_glass
+              - entity: binary_sensor.basement_motion
+            title: Motion/Sound
+            
+      - type: "custom:button-card"
+        entity: cover.kennedy_garage  
+        name: garage Door
+        tap_action:
+          action: toggle
+        state:
+        - value: "open"
+          name: Garage Open
+          image: /local/garage_open.png
+        - value: "closed"
+          name: Garage closed
+          image: /local/garage_open.png           
+      
+          
+  - title: Scripts
+    path: scripts
+    badges: []
+    cards:
+      - entity: script.test_pushbullet
+        hold_action:
+          action: call-service
+          service: ''
+        name: test pushbullet
+        show_icon: false
+        show_name: true
+        tap_action:
+          action: toggle
+        type: entity-button
+      - entities:
+          - entity: script.test_echo_notify
+        title: test_echo_show
+        type: entities
+  - title: Test
+    path: test
+    panel: true
+    badges: []
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: glance
+            entities:
+              - entity: switch.dining_light
+              - entity: switch.garage_light
+              - entity: switch.living_room_light
+              - entity: switch.laundry_room_light
+            title: Lights
+          - type: glance
+            entities:
+              - entity: sensor.epson_workforce_545_black_ink
+                name: black
+              - entity: sensor.epson_workforce_545_cyan_ink
+                name: cyan
+              - entity: sensor.epson_workforce_545_magenta_ink
+                name: magenta
+              - entity: sensor.epson_workforce_545_yellow_ink
+                name: yellow
+            show_name: true
+            title: Epson Workforce
+background: var(--background-image)
