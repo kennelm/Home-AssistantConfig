@@ -4,66 +4,100 @@ resources:
   - url: /hacsfiles/button-card/button-card.js
     type: module
   - url: /local/simple-thermostat.js?v=1
-    type: module    
+    type: module
+  - url: /local/mini-media-player-bundle.js?v=1.11.0
+    type: module        
 views:
   - path: default_view
     title: Home
     panel: false
-    badges:
-      - entity: person.larry
+    badges: []
     cards:
-      - entities:
-          - entity: device_tracker.life360_larry_k
-          - entity: device_tracker.life360_cindy
-          - entity: device_tracker.life360_lacey_kennedy
-          - entity: device_tracker.life360_beth
-        type: entities
-      - entity: sensor.epson_workforce_545
-        type: entity
-      - entities:
-          - binary_sensor.freezer
-        type: entities
-      - type: horizontal-stack
+
+      - type: vertical-stack
         cards:
+          - type: weather-forecast
+            entity: weather.home 
+#
+#           
+          - entities:
+              - entity: device_tracker.life360_larry_k
+                name: Larry
+              - entity: device_tracker.life360_cindy
+                name: Cindy
+              - entity: device_tracker.life360_lacey_kennedy
+                name: Lacey
+            type: entities
+#        
+      - type: vertical-stack
+        cards:
+          - type: custom:clock-card
+#           time_zone: "America/Chicago" #OPTIONAL
+#           size: 250 #OPTIONAL
+#           disable_seconds: true #OPTIONAL
+            caption: "Mayberry"
+            display_date: "MM/DD/YY"
+            theme:
+              background: black
+              hands: orange
+              numbers: white
+              border: grey          
+
+#           
+          - type: custom:mini-media-player
+            entity: media_player.denon_avr_s950h          
+#                   
+
+          - type: "custom:button-card"
+            color_type: blank-card            
+#
+      - type: vertical-stack
+        cards: 
+#
+          - type: entities
+            title: Sun & Moon 
+            show_header_toggle: false
+            entities: 
+              - sensor.nextsunrise
+              - sensor.nextsunset 
+              - sensor.moon
+   
+#            
           - type: glance
             entities:
-              - entity: sensor.epson_workforce_545_black_ink
+              - entity: sensor.ink_level_black
                 name: black
-              - entity: sensor.epson_workforce_545_cyan_ink
+              - entity: sensor.ink_level_magenta
                 name: cyan
-              - entity: sensor.epson_workforce_545_magenta_ink
+              - entity: sensor.ink_level_cyan
                 name: magenta
-              - entity: sensor.epson_workforce_545_yellow_ink
+              - entity: sensor.ink_level_yellow
                 name: yellow
+              - entity: sensor.cleaning_level
+                name: clean
             show_name: true
-            title: Epson Workforce 545
-      - entities:
-          - entity: binary_sensor.rachio_eb6286_online
-          - entity: switch.rachio_eb6286_in_standby_mode
-        title: Sprinkler
-        type: entities
-        
+            title: Epson Workforce            
 
+############################################################################################
   - path: Custom
     title: Custom
     panel: true
     cards:
       - type: vertical-stack
         cards:
-
           - type: horizontal-stack
             cards:
               - type: "custom:button-card"
                 color_type: blank-card            
               - type: "custom:button-card"
                 entity: switch.living_room_light 
-                icon: mdi:sofa
+                icon: mdi:globe-light
                 name: Living Room
                 tap_action:
                   action: toggle
                 state:
                 - value: "on"
-                  color: rgb(255, 255, 100)
+                  color: rgb(255, 255, 0)
                 - value: "off"
                   color: rgb(255, 255, 255)
                 styles:
@@ -72,6 +106,22 @@ views:
                   - width: 150px
         
               - type: "custom:button-card"
+                entity: switch.family_room 
+                icon: mdi:sofa
+                name: Family Room
+                tap_action:
+                  action: toggle
+                state:
+                - value: "on"
+                  color: rgb(255, 255, 0)
+                - value: "off"
+                  color: rgb(255, 255, 255)
+                styles:
+                  card:
+                  - height: 150px  
+                  - width: 150px
+                  
+              - type: "custom:button-card"
                 entity: switch.dining_light
                 icon: mdi:ceiling-light
                 name: Dining Room
@@ -79,7 +129,7 @@ views:
                   action: toggle
                 state:
                 - value: "on"
-                  color: rgb(255, 255, 100)
+                  color: rgb(255, 255, 0)
                 - value: "off"
                   color: rgb(255, 255, 255) 
                 styles:
@@ -95,7 +145,7 @@ views:
                   action: toggle
                 state:
                   - value: "on" 
-                    color: rgb(255, 255, 100)
+                    color: rgb(255, 255, 0)
                   - value: "off"
                     color: rgb(255, 255, 255) 
                 styles:
@@ -111,7 +161,7 @@ views:
                   action: toggle
                 state:
                 - value: "on"
-                  color: rgb(255, 255, 100)
+                  color: rgb(255, 255, 0)
                 - value: "off"
                   color: rgb(255, 255, 255)             
                 styles:
@@ -207,13 +257,15 @@ views:
                 name: Downstairs
                 icon: mdi:thermostat
                 control: true 
-                
-              - type: alarm-panel
-                states:
-                  - arm_home
-                  - arm_away
-                  - disarm
-                entity: alarm_control_panel.abode_alarm
+              - type: vertical-stack
+                cards:
+                  - type: alarm-panel
+                    states:
+                      - arm_home
+                      - arm_away
+                      - disarm
+                    entity: alarm_control_panel.abode_alarm
+                 
         
               - type: custom:simple-thermostat
                 entity: climate.thermostat
@@ -223,28 +275,47 @@ views:
                 icon: mdi:thermostat
                 control: true 
 
-
-                
+###################################################################                
   - title: Climate
     path: climate
     badges: []
     cards:
+      - type: vertical-stack
+        cards:
+         - type: picture-entity
+           entity: camera.weather_sterling
+           name: " "
+           camera_view: live   
+         - type: picture-entity
+           entity: camera.weather_roanoke
+           camera_view: live
+           name: " "
+#           
+      - type: vertical-stack
+        cards:        
+          - type: weather-forecast
+            entity: weather.home 
 
-      - type: custom:simple-thermostat
-        entity: climate.thermostat
-        step_layout: row
-        decimals: 0
-        name: Upstairs
-        icon: mdi:thermostat
-        control: false 
-      - type: custom:simple-thermostat
-        entity: climate.thermostat_1_nativezone
-        step_layout: row
-        decimals: 0
-        name: Downstairs
-        icon: mdi:thermostat
-        control: false         
-        
+          - type: horizontal-stack
+            cards:
+              - type: glance
+                show_name: false
+                entities:
+                  - entity: sensor.thermostat_1_relative_humidity
+                title: Inside Humidity
+              - type: glance
+                show_name: false                      
+                entities:
+                  - entity: sensor.openweathermap_humidity_2
+                title: Outside Humidity 
+          - entities:
+            - entity: binary_sensor.rachio_eb6286_online
+            - entity: switch.rachio_eb6286_in_standby_mode
+            title: Sprinkler
+            type: entities              
+#
+ 
+####################################################################        
   - title: Traffic
     path: traffic
     badges: []
@@ -254,61 +325,259 @@ views:
           - device_tracker.life360_larry_k
           - device_tracker.life360_cindy
         hours_to_show: 0
+      
       - type: glance
         entities:
           - entity: sensor.larry_work
           - entity: sensor.cindy_work
   
-     
+###################################################################     
   - title: Security
     path: security
     badges: []
     cards:
-      - type: alarm-panel
-        states:
-          - arm_home
-          - arm_away
-          - disarm
-        entity: alarm_control_panel.abode_alarm
-      - type: horizontal-stack
-        cards:
-          - type: glance
-            entities:
-              - entity: binary_sensor.front_doors
-              - entity: binary_sensor.rear_doors
-              - entity: binary_sensor.basement
-            title: Doors
-      - type: horizontal-stack
-        cards:
-          - type: glance
-            entities:
-              - entity: binary_sensor.kitchen
-              - entity: binary_sensor.dr_lr_bath
-              - entity: binary_sensor.family_office
-            title: Windows
-      - type: horizontal-stack
-        cards:
-          - type: glance
-            entities:
-              - entity: binary_sensor.family_glass
-              - entity: binary_sensor.foyer_glass
-              - entity: binary_sensor.basement_motion
-            title: Motion/Sound
-            
-      - type: "custom:button-card"
-        entity: cover.kennedy_garage  
-        name: garage Door
-        tap_action:
-          action: toggle
-        state:
-        - value: "open"
-          name: Garage Open
-          image: /local/garage_open.png
-        - value: "closed"
-          name: Garage closed
-          image: /local/garage_open.png           
-      
-          
+
+      - type: picture-elements
+        entity: camera.garage
+        camera_image: camera.garage
+        camera_view: live   # or auto for snapshot view
+        elements:
+          - type: icon
+            icon: 'mdi:arrow-up'
+            style:
+              background: 'rgba(255, 255, 255, 0.25)'
+              right: 25px
+              bottom: 50px
+            tap_action:
+              action: call-service
+              service: amcrest.ptz_control
+              service_data:
+                entity_id: camera.garage
+                movement: up
+          - type: icon
+            icon: 'mdi:arrow-down'
+            style:
+              background: 'rgba(255, 255, 255, 0.25)'
+              right: 25px
+              bottom: 0px
+            tap_action:
+              action: call-service
+              service: amcrest.ptz_control
+              service_data:
+                entity_id: camera.garage
+                movement: down
+          - type: icon
+            icon: 'mdi:arrow-left'
+            style:
+              background: 'rgba(255, 255, 255, 0.25)'
+              right: 50px
+              bottom: 25px
+            tap_action:
+              action: call-service
+              service: amcrest.ptz_control
+              service_data:
+                entity_id: camera.garage
+                movement: left
+          - type: icon
+            icon: 'mdi:arrow-right'
+            style:
+              background: 'rgba(255, 255, 255, 0.25)'
+              right: 0px
+              bottom: 25px
+            tap_action:
+              action: call-service
+              service: amcrest.ptz_control
+              service_data:
+                entity_id: camera.garage
+                movement: right
+          - type: icon
+            icon: 'mdi:arrow-top-left'
+            style:
+              background: 'rgba(255, 255, 255, 0.25)'
+              right: 50px
+              bottom: 50px
+            tap_action:
+              action: call-service
+              service: amcrest.ptz_control
+              service_data:
+                entity_id: camera.garage
+                movement: left_up
+          - type: icon
+            icon: 'mdi:arrow-top-right'
+            style:
+              background: 'rgba(255, 255, 255, 0.25)'
+              right: 0px
+              bottom: 50px
+            tap_action:
+              action: call-service
+              service: amcrest.ptz_control
+              service_data:
+                entity_id: camera.garage
+                movement: right_up
+          - type: icon
+            icon: 'mdi:arrow-bottom-left'
+            style:
+              background: 'rgba(255, 255, 255, 0.25)'
+              right: 50px
+              bottom: 0px
+            tap_action:
+              action: call-service
+              service: amcrest.ptz_control
+              service_data:
+                entity_id: camera.garage
+                movement: left_down
+          - type: icon
+            icon: 'mdi:arrow-bottom-right'
+            style:
+              background: 'rgba(255, 255, 255, 0.25)'
+              right: 0px
+              bottom: 0px
+            tap_action:
+              action: call-service
+              service: amcrest.ptz_control
+              service_data:
+                entity_id: camera.garage
+                movement: right_down
+          - type: icon
+            icon: 'mdi:magnify'
+            style:
+              background: 'rgba(255, 255, 255, 0.25)'
+              bottom: 25px
+              right: 25px
+            tap_action:
+              action: call-service
+              service: amcrest.ptz_control
+              service_data:
+                entity_id: camera.garage
+                movement: zoom_in
+            hold_action:
+              action: call-service
+              service: amcrest.ptz_control
+              service_data:
+                entity_id: camera.garage
+                movement: zoom_out
+        
+    
+      - type: picture-elements
+        entity: camera.spare
+        camera_image: camera.spare
+        camera_view: live   # or auto for snapshot view
+        elements:
+          - type: icon
+            icon: 'mdi:arrow-up'
+            style:
+              background: 'rgba(255, 255, 255, 0.25)'
+              right: 25px
+              bottom: 50px
+            tap_action:
+              action: call-service
+              service: amcrest.ptz_control
+              service_data:
+                entity_id: camera.spare
+                movement: up
+          - type: icon
+            icon: 'mdi:arrow-down'
+            style:
+              background: 'rgba(255, 255, 255, 0.25)'
+              right: 25px
+              bottom: 0px
+            tap_action:
+              action: call-service
+              service: amcrest.ptz_control
+              service_data:
+                entity_id: camera.spare
+                movement: down
+          - type: icon
+            icon: 'mdi:arrow-left'
+            style:
+              background: 'rgba(255, 255, 255, 0.25)'
+              right: 50px
+              bottom: 25px
+            tap_action:
+              action: call-service
+              service: amcrest.ptz_control
+              service_data:
+                entity_id: camera.spare
+                movement: left
+          - type: icon
+            icon: 'mdi:arrow-right'
+            style:
+              background: 'rgba(255, 255, 255, 0.25)'
+              right: 0px
+              bottom: 25px
+            tap_action:
+              action: call-service
+              service: amcrest.ptz_control
+              service_data:
+                entity_id: camera.spare
+                movement: right
+          - type: icon
+            icon: 'mdi:arrow-top-left'
+            style:
+              background: 'rgba(255, 255, 255, 0.25)'
+              right: 50px
+              bottom: 50px
+            tap_action:
+              action: call-service
+              service: amcrest.ptz_control
+              service_data:
+                entity_id: camera.spare
+                movement: left_up
+          - type: icon
+            icon: 'mdi:arrow-top-right'
+            style:
+              background: 'rgba(255, 255, 255, 0.25)'
+              right: 0px
+              bottom: 50px
+            tap_action:
+              action: call-service
+              service: amcrest.ptz_control
+              service_data:
+                entity_id: camera.spare
+                movement: right_up
+          - type: icon
+            icon: 'mdi:arrow-bottom-left'
+            style:
+              background: 'rgba(255, 255, 255, 0.25)'
+              right: 50px
+              bottom: 0px
+            tap_action:
+              action: call-service
+              service: amcrest.ptz_control
+              service_data:
+                entity_id: camera.spare
+                movement: left_down
+          - type: icon
+            icon: 'mdi:arrow-bottom-right'
+            style:
+              background: 'rgba(255, 255, 255, 0.25)'
+              right: 0px
+              bottom: 0px
+            tap_action:
+              action: call-service
+              service: amcrest.ptz_control
+              service_data:
+                entity_id: camera.spare
+                movement: right_down
+          - type: icon
+            icon: 'mdi:magnify'
+            style:
+              background: 'rgba(255, 255, 255, 0.25)'
+              bottom: 25px
+              right: 25px
+            tap_action:
+              action: call-service
+              service: amcrest.ptz_control
+              service_data:
+                entity_id: camera.spare
+                movement: zoom_in
+            hold_action:
+              action: call-service
+              service: amcrest.ptz_control
+              service_data:
+                entity_id: camera.spare
+                movement: zoom_out          
+###################################################################          
   - title: Scripts
     path: scripts
     badges: []
@@ -327,30 +596,5 @@ views:
           - entity: script.test_echo_notify
         title: test_echo_show
         type: entities
-  - title: Test
-    path: test
-    panel: true
-    badges: []
-    cards:
-      - type: horizontal-stack
-        cards:
-          - type: glance
-            entities:
-              - entity: switch.dining_light
-              - entity: switch.garage_light
-              - entity: switch.living_room_light
-              - entity: switch.laundry_room_light
-            title: Lights
-          - type: glance
-            entities:
-              - entity: sensor.epson_workforce_545_black_ink
-                name: black
-              - entity: sensor.epson_workforce_545_cyan_ink
-                name: cyan
-              - entity: sensor.epson_workforce_545_magenta_ink
-                name: magenta
-              - entity: sensor.epson_workforce_545_yellow_ink
-                name: yellow
-            show_name: true
-            title: Epson Workforce
+###################################################################
 background: var(--background-image)

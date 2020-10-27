@@ -2,17 +2,31 @@
 # Configure a default setup of Home Assistant (frontend, api, etc)
 #default_config:
 #
-cloud:
+#cloud:
 #
 # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 # http:
 #   base_url: example.duckdns.org:8123
+
 lovelace:
   mode: yaml
-#  
+  resources:
+    - url: /local/mini-media-player-bundle.js
+      type: module
+    - url: /hacsfiles/button-card/button-card.js
+      type: module
+    - url: /local/simple-thermostat.js?v=1
+      type: module
+    - url: /local/mini-media-player-bundle.js?v=1.11.0
+      type: module        
+    - url: /local/clock-card.js
+      type: module      
+#
 frontend:
   themes: !include_dir_merge_named themes
-#  
+sun:
+# 
+
 # Text to speech
 tts:
   - platform: google_translate
@@ -25,23 +39,28 @@ script: !include scripts.yaml
 logger:
    default: debug
 #
+#
+google:
+  client_id: !secret google_client_id
+  client_secret: !secret google_client_secret
+#
 rachio:
   api_key: !secret rachio_key
 #
 automation: !include automations.yaml
 #
-#amcrest:
-#  - host: 192.168.1.131
-#    port: 8080
-#    name: kitchen
-#    username: !secret amcrest_user 
-#    password: !secret amcrest_pass
+amcrest:
+  - host: 192.168.1.131
+    port: 8080
+    name: spare
+    username: !secret amcrest_user 
+    password: !secret amcrest_pass
 #
-#  - host: 192.168.1.132
-#    port: 8080
-#    name: front    
-#    username: !secret amcrest_admin
-#    password: !secret amcrest_pass
+  - host: 192.168.1.132
+    port: 8080
+    name: Garage    
+    username: !secret amcrest_user
+    password: !secret amcrest_pass
     
 #myq garage door opener
 cover:
@@ -63,17 +82,60 @@ notify:
     name: pushbullet
     api_key: !secret pushbullet_api
 #
-# Example configuration.yaml entry
+#
+zone:
+  - name: Home
+    latitude: !secret home_lat
+    longitude: !secret home_long
+    radius: 100
+    icon: mdi:home
+
+  - name: larry Work
+    latitude: !secret larry_work_lat
+    longitude: !secret larry_work_long
+    radius: 100
+    icon: mdi:work    
+#
 sensor:
+  - platform: time_date
+    display_options:
+      - 'time'
+      - 'date'
+      - 'date_time'
+      - 'date_time_utc'
+      - 'date_time_iso'
+      - 'time_date'
+      - 'time_utc'
+      - 'beat'
+  - platform: openweathermap
+    api_key: !secret openweather-key
+    monitored_conditions:
+    - weather
+    - temperature
+    - wind_speed
+    - humidity
+    - pressure
+    - clouds
+#
+  - platform: epsonworkforce
+    host: 192.168.1.160
+    monitored_conditions:
+    - black
+    - photoblack
+    - yellow
+    - magenta
+    - cyan
+    - clean
+#
   - platform: modem_callerid
     device: /dev/ttyACM0
-# - platform: moon
-# - platform: cpuspeed
-# - platform: systemmonitor
-#    resources:
-#      - type: disk_use_percent
-#        arg: /home
-#      - type: memory_free
+  - platform: moon
+  - platform: cpuspeed
+  - platform: systemmonitor
+    resources:
+      - type: disk_use_percent
+        arg: /home
+      - type: memory_free
 #
   - platform: waze_travel_time
     origin: !secret home_loc
@@ -88,7 +150,18 @@ sensor:
     region: 'US'
     name: Cindy-Work
 #    id: '589340583490856546456546559048'
-#    
+
+#
+camera:
+  - platform: generic
+    still_image_url: https://radblast.wunderground.com/cgi-bin/radar/WUNIDS_map?num=6&type=N0R&mapx=400&mapy=240&brand=wui&delay=15&frame=0&scale=1&transx=0&transy=0&severe=0&smooth=0&centerx=400&centery=240&station=LWX&rainsnow=0&lightning=0&noclutter=1&showlabels=1&showstorms=0&rand=26725167
+    name: weather-sterling
+  - platform: generic
+    still_image_url: https://radblast.wunderground.com/cgi-bin/radar/WUNIDS_map?num=6&type=N0R&mapx=400&mapy=240&brand=wui&delay=15&frame=0&scale=1&transx=0&transy=0&severe=0&smooth=0&centerx=400&centery=240&station=ILN&rainsnow=0&lightning=0&noclutter=1&showlabels=1&showstorms=0&rand=26725093
+    name: weather-ohio
+  - platform: generic
+    still_image_url: https://radblast.wunderground.com/cgi-bin/radar/WUNIDS_map?num=6&type=N0R&mapx=400&mapy=240&brand=wui&delay=15&frame=0&scale=1&transx=0&transy=0&severe=0&smooth=0&centerx=400&centery=240&station=FCX&rainsnow=0&lightning=0&noclutter=1&showlabels=1&showstorms=0&rand=26725166
+    name: weather-roanoke  
 #
 nexia:
   username: !secret nexia_user

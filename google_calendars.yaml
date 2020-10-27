@@ -1,0 +1,40 @@
+
+- cal_id: lunchtimelarry@gmail.com
+  entities:
+  - device_id: larry_k
+    ignore_availability: true
+    name: Larry K
+    track: true
+    max_results: 50
+
+
+- cal_id: en.usa#holiday@group.v.calendar.google.com
+  entities:
+  - device_id: holidays_in_united_states
+    ignore_availability: true
+    name: Holidays in United States
+    track: true
+    max_results: 20    
+
+- cal_id: family03683355443845404029@group.calendar.google.com
+  entities:
+  - device_id: family
+    ignore_availability: true
+    name: Family
+    track: true
+    max_results: 20    
+
+#- cal_id: addressbook#contacts@group.v.calendar.google.com
+#  entities:
+#  - device_id: birthdays
+#    ignore_availability: true
+#    name: Birthdays
+#    track: true
+#    max_results: 20    
+
+- cal_id: addressbook#contacts@group.v.calendar.google.com
+  entities:
+  - device_id: birthdays
+    ignore_availability: true
+    name: Birthdays
+    track: true
