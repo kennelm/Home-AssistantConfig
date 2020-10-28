@@ -136,10 +136,52 @@
     entity_id: cover.kennedy_garage
 #
 #
+- alias: thermostats conflict
+  initial_state: true
+  trigger:
+    platform: time_pattern
+    minutes: '/1' 
+  action:
+  - service: notify.pushbullet
+    data:
+      title: Home Assistant Alert!
+      message: The thermostats are in conflicting modes.
+      target: device/Larry S7
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: climate.thermostat
+      attribute: hvac_modes      
+      state: cool
+    - condition: state
+      entity_id: climate.thermostat1_native_zone
+      attribute: hvac_modes      
+      state: heat
 #
-
 #
-#
+- alias: thermostats conflict2
+  initial_state: true
+  trigger:
+    platform: time_pattern
+    minutes: '/1' 
+  action:
+  - service: notify.pushbullet
+    data:
+      title: Home Assistant Alert!
+      message: The thermostats are in conflicting modes.
+      target: device/Larry S7
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: climate.thermostat
+      attribute: hvac_modes
+      state: heat
+    - condition: state
+      entity_id: climate.thermostat1_native_zone
+      attribute: hvac_modes      
+      state: cool
 #
   id: 494a550140f74ebf83ed5bca2dac4c9e
 - alias: Notify CallerID

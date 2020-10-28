@@ -54,29 +54,23 @@ views:
       - type: vertical-stack
         cards: 
 #
-          - type: entities
-            title: Sun & Moon 
-            show_header_toggle: false
-            entities: 
-              - sensor.nextsunrise
-              - sensor.nextsunset 
-              - sensor.moon
-   
-#            
           - type: glance
             entities:
-              - entity: sensor.ink_level_black
-                name: black
-              - entity: sensor.ink_level_magenta
-                name: cyan
-              - entity: sensor.ink_level_cyan
-                name: magenta
-              - entity: sensor.ink_level_yellow
-                name: yellow
-              - entity: sensor.cleaning_level
-                name: clean
-            show_name: true
-            title: Epson Workforce            
+              - entity: sensor.nextsunrise 
+              - entity: sensor.nextsunset 
+              - entity: sensor.moon
+            title: Sun and Moon
+#  
+#    
+          - type: vertical-stack
+            cards:
+              - type: alarm-panel
+                states:
+                  - arm_home
+                  - arm_away
+                  - disarm
+                entity: alarm_control_panel.abode_alarm     
+#          
 
 ############################################################################################
   - path: Custom
@@ -203,7 +197,7 @@ views:
                   card:
                   - height: 150px
                   - width: 150px
-                  
+#                  
               - type: "custom:button-card"
                 entity: alarm_control_panel.abode_alarm
                 state:
@@ -259,14 +253,14 @@ views:
                 control: true 
               - type: vertical-stack
                 cards:
-                  - type: alarm-panel
-                    states:
-                      - arm_home
-                      - arm_away
-                      - disarm
-                    entity: alarm_control_panel.abode_alarm
-                 
-        
+                  - entities:
+                    - entity: binary_sensor.rachio_eb6286_online
+                    - entity: switch.rachio_eb6286_in_standby_mode
+                    title: Sprinkler
+                    type: entities                    
+                  - type: "custom:button-card"
+                    color_type: blank-card  
+
               - type: custom:simple-thermostat
                 entity: climate.thermostat
                 step_layout: row
@@ -596,5 +590,21 @@ views:
           - entity: script.test_echo_notify
         title: test_echo_show
         type: entities
+        
+#            
+      - type: glance
+        entities:
+          - entity: sensor.ink_level_black
+            name: black
+          - entity: sensor.ink_level_magenta
+            name: cyan
+          - entity: sensor.ink_level_cyan
+            name: magenta
+          - entity: sensor.ink_level_yellow
+            name: yellow
+          - entity: sensor.cleaning_level
+            name: clean
+        show_name: true
+        title: Epson Workforce         
 ###################################################################
 background: var(--background-image)
