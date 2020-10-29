@@ -137,10 +137,9 @@
 #
 #
 - alias: thermostats conflict
-  initial_state: true
   trigger:
     platform: time_pattern
-    minutes: '/1' 
+    at: "18:00:00"
   action:
   - service: notify.pushbullet
     data:
@@ -152,19 +151,19 @@
     conditions:
     - condition: state
       entity_id: climate.thermostat
-      attribute: hvac_modes      
+      attribute: 'hvac_modes'      
       state: cool
     - condition: state
-      entity_id: climate.thermostat1_native_zone
-      attribute: hvac_modes      
+      entity_id: climate.thermostat_1_nativezone
+      attribute: 'hvac_modes'      
       state: heat
 #
 #
-- alias: thermostats conflict2
-  initial_state: true
+#
+- alias: thermostats conflict-2
   trigger:
     platform: time_pattern
-    minutes: '/1' 
+    at: "18:00:00"
   action:
   - service: notify.pushbullet
     data:
@@ -176,12 +175,13 @@
     conditions:
     - condition: state
       entity_id: climate.thermostat
-      attribute: hvac_modes
+      attribute: 'hvac_modes'      
       state: heat
     - condition: state
-      entity_id: climate.thermostat1_native_zone
-      attribute: hvac_modes      
+      entity_id: climate.thermostat_1_nativezone
+      attribute: 'hvac_modes'      
       state: cool
+#
 #
   id: 494a550140f74ebf83ed5bca2dac4c9e
 - alias: Notify CallerID

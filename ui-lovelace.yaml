@@ -19,6 +19,9 @@ views:
           - type: weather-forecast
             entity: weather.home 
 #
+#
+          - type: "custom:button-card"
+            color_type: blank-card    
 #           
           - entities:
               - entity: device_tracker.life360_larry_k
@@ -43,13 +46,18 @@ views:
               numbers: white
               border: grey          
 
-#           
-          - type: custom:mini-media-player
-            entity: media_player.denon_avr_s950h          
-#                   
-
+#  
           - type: "custom:button-card"
             color_type: blank-card            
+#    
+          - type: vertical-stack
+            cards:
+              - type: alarm-panel
+                states:
+                  - arm_home
+                  - arm_away
+                  - disarm
+                entity: alarm_control_panel.abode_alarm              
 #
       - type: vertical-stack
         cards: 
@@ -60,17 +68,14 @@ views:
               - entity: sensor.nextsunset 
               - entity: sensor.moon
             title: Sun and Moon
-#  
-#    
-          - type: vertical-stack
-            cards:
-              - type: alarm-panel
-                states:
-                  - arm_home
-                  - arm_away
-                  - disarm
-                entity: alarm_control_panel.abode_alarm     
-#          
+#
+#
+          - type: "custom:button-card"
+            color_type: blank-card    
+#           
+          - type: custom:mini-media-player
+            entity: media_player.denon_avr_s950h  
+#
 
 ############################################################################################
   - path: Custom
