@@ -3,8 +3,10 @@ test_pushbullet:
   sequence:
   - data:
       message: this is a test message
+      target: device/Larry S7   
       title: test alert!
     service: notify.pushbullet
+
 #
 #
 test_echo_notify:

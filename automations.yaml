@@ -1,3 +1,4 @@
+#
 - id: '4348347893743897453'
   alias: Freezer Door Check
 # poll every xx minutes to check status of the basement door   
@@ -114,32 +115,32 @@
       message: Home assistant started!
       target: device/Larry S7
       
-  id: 445f04a31d194051881be8b5c4c2ab28
-- alias: nobody is home and the garage door is open
-  initial_state: true
-  trigger:
-    platform: event
-    event_type: abode_automation
-    event_data:
-      device_name: Nobody is Home
-  condition:
-  - condition: state
-    entity_id: cover.kennedy_garage
-    state: open
-  action:
-  - service: notify.pushbullet
-    data:
-      title: Home Assistant Alert!
-      message: No one is home and the garage door is open.  Closing door now.
-      target: device/Larry S7
-  - service: cover.close_cover
-    entity_id: cover.kennedy_garage
+#  id: 445f04a31d194051881be8b5c4c2ab28
+#- alias: nobody is home and the garage door is open
+#  initial_state: true
+#  trigger:
+#    platform: event
+#    event_type: abode_automation
+#    event_data:
+#      device_name: Nobody is Home
+#  condition:
+#  - condition: state
+#    entity_id: cover.kennedy_garage
+#    state: open
+#  action:
+#  - service: notify.pushbullet
+#    data:
+#      title: Home Assistant Alert!
+#      message: No one is home and the garage door is open.  Closing door now.
+#      target: device/Larry S7
+#  - service: cover.close_cover
+#    entity_id: cover.kennedy_garage
 #
 #
 - alias: thermostats conflict
   trigger:
-    platform: time_pattern
-    at: "18:00:00"
+    platform: sun
+    event: sunset
   action:
   - service: notify.pushbullet
     data:
@@ -162,8 +163,8 @@
 #
 - alias: thermostats conflict-2
   trigger:
-    platform: time_pattern
-    at: "18:00:00"
+    platform: sun
+    event: sunset
   action:
   - service: notify.pushbullet
     data:
@@ -195,7 +196,6 @@
       title: Home Assistant Alert!
       message: '''Call from {{ state_attr(''sensor.modem_callerid'',''cid_name'')
         }} at {{ state_attr(''sensor.modem_callerid'',''cid_number'') }}''
-
         '
       target: device/Larry S7
   - service: notify.alexa_media

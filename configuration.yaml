@@ -22,18 +22,19 @@ lovelace:
     - url: /local/clock-card.js
       type: module      
 #
+history:
+#
 frontend:
   themes: !include_dir_merge_named themes
-sun:
-# 
-
+#
 # Text to speech
 tts:
   - platform: google_translate
-
-group: !include groups.yaml
-#automation: !include automations.yaml
-#config:
+#
+#group: !include groups.yaml
+automation: !include automations.yaml
+#
+#
 script: !include scripts.yaml
 #
 logger:
@@ -47,7 +48,7 @@ google:
 rachio:
   api_key: !secret rachio_key
 #
-automation: !include automations.yaml
+sun:
 #
 amcrest:
   - host: 192.168.1.131
@@ -58,7 +59,7 @@ amcrest:
 #
   - host: 192.168.1.132
     port: 8080
-    name: Garage    
+    name: garage    
     username: !secret amcrest_user
     password: !secret amcrest_pass
     
@@ -73,16 +74,13 @@ cover:
 abode:
    username: !secret abode_user
    password: !secret abode_pass 
-#  name: "Abode Alarm System"
-#  polling: false
 #
-# pushbullet notification via SMS
 notify:
   - platform: pushbullet
     name: pushbullet
     api_key: !secret pushbullet_api
 #
-#
+# Device tracking
 zone:
   - name: Home
     latitude: !secret home_lat
@@ -107,15 +105,23 @@ sensor:
       - 'time_date'
       - 'time_utc'
       - 'beat'
-  - platform: openweathermap
-    api_key: !secret openweather-key
-    monitored_conditions:
-    - weather
-    - temperature
-    - wind_speed
-    - humidity
-    - pressure
-    - clouds
+#      
+#  - platform: openweathermap
+#    api_key: !secret openweather-key
+#    monitored_conditions:
+#    - weather
+#    - temperature
+#    - wind_speed
+#    - humidity
+#    - pressure
+#    - clouds
+  - platform: yahoofinance
+    show_trending_icon: true
+    scan_interval:
+      hours: 1
+    symbols:
+      - ^DJI
+      - ^GSPC
 #
   - platform: epsonworkforce
     host: 192.168.1.160
@@ -142,15 +148,37 @@ sensor:
     destination: !secret larry_work
     region: 'US'
     name: Larry-Work
-#    id: '589340583490859034859034859048'
 #  
   - platform: waze_travel_time
     origin: !secret home_loc
     destination: !secret cindy_work
     region: 'US'
     name: Cindy-Work
-#    id: '589340583490856546456546559048'
 #
+  - platform: waze_travel_time
+    origin: !secret home_loc
+    destination: !secret beth_loc
+    region: 'US'
+    name: Beth-Home
+#
+  - platform: waze_travel_time
+    origin: !secret home_loc
+    destination: !secret hq_loc
+    region: 'US'
+    name: hq
+#
+  - platform: waze_travel_time
+    origin: !secret home_loc
+    destination: !secret iccb_loc
+    region: 'US'
+    name: iccb
+#
+  - platform: waze_travel_time
+    origin: !secret home_loc
+    destination: !secret dad_loc
+    region: 'US'
+    name: dad
+#    
   - platform: template
     sensors:
       nextsunrise:
@@ -165,15 +193,12 @@ sensor:
         value_template: >
           {{ as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom(' %I:%M %p') | replace(" 0", "") }}
         icon_template: mdi:weather-sunset-down
-
 #
 camera:
   - platform: generic
     still_image_url: https://radblast.wunderground.com/cgi-bin/radar/WUNIDS_map?num=6&type=N0R&mapx=400&mapy=240&brand=wui&delay=15&frame=0&scale=1&transx=0&transy=0&severe=0&smooth=0&centerx=400&centery=240&station=LWX&rainsnow=0&lightning=0&noclutter=1&showlabels=1&showstorms=0&rand=26725167
     name: weather-sterling
-  - platform: generic
-    still_image_url: https://radblast.wunderground.com/cgi-bin/radar/WUNIDS_map?num=6&type=N0R&mapx=400&mapy=240&brand=wui&delay=15&frame=0&scale=1&transx=0&transy=0&severe=0&smooth=0&centerx=400&centery=240&station=ILN&rainsnow=0&lightning=0&noclutter=1&showlabels=1&showstorms=0&rand=26725093
-    name: weather-ohio
+#
   - platform: generic
     still_image_url: https://radblast.wunderground.com/cgi-bin/radar/WUNIDS_map?num=6&type=N0R&mapx=400&mapy=240&brand=wui&delay=15&frame=0&scale=1&transx=0&transy=0&severe=0&smooth=0&centerx=400&centery=240&station=FCX&rainsnow=0&lightning=0&noclutter=1&showlabels=1&showstorms=0&rand=26725166
     name: weather-roanoke  

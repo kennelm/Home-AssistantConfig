@@ -13,30 +13,29 @@ views:
     panel: false
     badges: []
     cards:
-
       - type: vertical-stack
         cards:
           - type: weather-forecast
-            entity: weather.home 
-#
+            entity: weather.home_hourly
 #
           - type: "custom:button-card"
-            color_type: blank-card    
-#           
-          - entities:
-              - entity: device_tracker.life360_larry_k
-                name: Larry
-              - entity: device_tracker.life360_cindy
-                name: Cindy
-              - entity: device_tracker.life360_lacey_kennedy
-                name: Lacey
-            type: entities
-#        
+            color_type: blank-card
+#            
+          - type: weather-forecast
+            entity: weather.home
+#            
+          - type: history-graph
+            title: 'Dow'
+            hours_to_show: 80
+            entities:
+             - entity: yahoofinance.dji
+               name: Dow
+#            
       - type: vertical-stack
         cards:
           - type: custom:clock-card
 #           time_zone: "America/Chicago" #OPTIONAL
-#           size: 250 #OPTIONAL
+#            size: 250 #OPTIONAL
 #           disable_seconds: true #OPTIONAL
             caption: "Mayberry"
             display_date: "MM/DD/YY"
@@ -44,20 +43,20 @@ views:
               background: black
               hands: orange
               numbers: white
-              border: grey          
-
+              border: grey  
+#
 #  
           - type: "custom:button-card"
             color_type: blank-card            
-#    
-          - type: vertical-stack
-            cards:
-              - type: alarm-panel
-                states:
-                  - arm_home
-                  - arm_away
-                  - disarm
-                entity: alarm_control_panel.abode_alarm              
+#
+#            
+          - type: history-graph
+            title: 'S&P'
+            hours_to_show: 80
+            entities:
+             - entity: yahoofinance.gspc
+               name: S&P
+#           
 #
       - type: vertical-stack
         cards: 
@@ -74,12 +73,32 @@ views:
             color_type: blank-card    
 #           
           - type: custom:mini-media-player
-            entity: media_player.denon_avr_s950h  
-#
+            entity: media_player.denon_avr_s950h
+#  
+          - type: "custom:button-card"
+            color_type: blank-card            
+#    
+          - type: vertical-stack
+            cards:
+              - type: alarm-panel
+                states:
+                  - arm_home
+                  - arm_away
+                  - disarm
+                entity: alarm_control_panel.abode_alarm                 
+#            
+          - entities:
+              - entity: device_tracker.life360_larry_k
+                name: Larry
+              - entity: device_tracker.life360_cindy
+                name: Cindy
+              - entity: device_tracker.life360_lacey_kennedy
+                name: Lacey
+            type: entities  
 
 ############################################################################################
-  - path: Custom
-    title: Custom
+  - path: inside
+    title: Inside
     panel: true
     cards:
       - type: vertical-stack
@@ -258,13 +277,14 @@ views:
                 control: true 
               - type: vertical-stack
                 cards:
-                  - entities:
-                    - entity: binary_sensor.rachio_eb6286_online
-                    - entity: switch.rachio_eb6286_in_standby_mode
-                    title: Sprinkler
-                    type: entities                    
                   - type: "custom:button-card"
-                    color_type: blank-card  
+                    color_type: blank-card                     
+                  - type: alarm-panel
+                    states:
+                      - arm_home
+                      - arm_away
+                      - disarm
+                    entity: alarm_control_panel.abode_alarm    
 
               - type: custom:simple-thermostat
                 entity: climate.thermostat
@@ -275,8 +295,8 @@ views:
                 control: true 
 
 ###################################################################                
-  - title: Climate
-    path: climate
+  - title: Outside
+    path: outside
     badges: []
     cards:
       - type: vertical-stack
@@ -323,13 +343,28 @@ views:
         entities:
           - device_tracker.life360_larry_k
           - device_tracker.life360_cindy
+          - device_tracker.life360_lacey_kennedy
         hours_to_show: 0
-      
-      - type: glance
-        entities:
-          - entity: sensor.larry_work
-          - entity: sensor.cindy_work
-  
+#  
+      - type: vertical-stack
+        cards:    
+          - type: glance
+            entities:
+              - entity: sensor.larry_work
+                name: ND
+              - entity: sensor.cindy_work
+                name: DD
+              - entity: sensor.hq
+                name: HQ   
+          - type: glance
+            entities:
+              - entity: sensor.iccb
+                name: ICC-B
+              - entity: sensor.beth_home
+                name: Beth
+              - entity: sensor.dad
+                name: Dad
+#  
 ###################################################################     
   - title: Security
     path: security
@@ -595,7 +630,6 @@ views:
           - entity: script.test_echo_notify
         title: test_echo_show
         type: entities
-        
 #            
       - type: glance
         entities:
