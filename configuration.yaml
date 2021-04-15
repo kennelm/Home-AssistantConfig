@@ -20,6 +20,8 @@ lovelace:
     - url: /local/mini-media-player-bundle.js?v=1.11.0
       type: module        
     - url: /local/clock-card.js
+      type: module   
+    - url: /hacsfiles/lovelace-xiaomi-vacuum-card/xiaomi-vacuum-card.js
       type: module      
 #
 history:
@@ -40,6 +42,10 @@ script: !include scripts.yaml
 logger:
    default: debug
 #
+vacuum:
+  - platform: xiaomi_miio
+    host: 192.168.1.71
+    token: !secret vacuum_token
 #
 google:
   client_id: !secret google_client_id
@@ -213,11 +219,11 @@ climate:
     username: !secret tcc_user
     password: !secret tcc_pass  
 #
-alexa_media:
-  accounts:
-    - email: !secret amazon_user 
-      password: !secret amazon_pass  
-      url: amazon.com
+#alexa_media:
+#  accounts:
+#    - email: !secret amazon_user 
+#      password: !secret amazon_pass  
+#      url: amazon.com
 #
 #
 shell_command:
@@ -232,3 +238,5 @@ shell_command:
 #        value_template: >-
 #          {{ is_state('binary_sensor.basement', 'on') }}
 ###
+hacs:
+  token: !secret hacs

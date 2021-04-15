@@ -3,7 +3,7 @@
   alias: Freezer Door Check
 # poll every xx minutes to check status of the basement door   
   trigger:
-    minutes: /1
+    minutes: /15
     platform: time_pattern
   condition: 
   - condition: template
@@ -13,7 +13,7 @@
     data:
       title: Freezer Door is Open
       message: The freezer door is open
-      target: device/Larry S7
+      target: device/Larry S10
   - service: notify.alexa_media
     data:
       target:
@@ -37,7 +37,7 @@
     data:
       title: Basement Door Open
       message: The basement door is open
-      target: device/Larry S7
+      target: device/Larry S10
   - service: notify.alexa_media
     data:
       target:
@@ -65,7 +65,7 @@
     data:
       title: Rear Door is Open
       message: One of the back doors is open
-      target: device/Larry S7
+      target: device/Larry S10
   - service: notify.alexa_media
     data:
       target:
@@ -94,7 +94,7 @@
     data:
       title: Front Door is Open
       message: One of the front doors is open
-      target: device/Larry S7
+      target: device/Larry S10
   - service: notify.alexa_media
     data:
       target:
@@ -113,7 +113,7 @@
     data:
       title: Home assistant started
       message: Home assistant started!
-      target: device/Larry S7
+      target: device/Larry S10
       
 #  id: 445f04a31d194051881be8b5c4c2ab28
 #- alias: nobody is home and the garage door is open
@@ -132,7 +132,7 @@
 #    data:
 #      title: Home Assistant Alert!
 #      message: No one is home and the garage door is open.  Closing door now.
-#      target: device/Larry S7
+#      target: device/Larry S10
 #  - service: cover.close_cover
 #    entity_id: cover.kennedy_garage
 #
@@ -146,7 +146,7 @@
     data:
       title: Home Assistant Alert!
       message: The thermostats are in conflicting modes.
-      target: device/Larry S7
+      target: device/Larry S10
   condition:
     condition: and
     conditions:
@@ -170,7 +170,7 @@
     data:
       title: Home Assistant Alert!
       message: The thermostats are in conflicting modes.
-      target: device/Larry S7
+      target: device/Larry S10
   condition:
     condition: and
     conditions:
@@ -197,7 +197,7 @@
       message: '''Call from {{ state_attr(''sensor.modem_callerid'',''cid_name'')
         }} at {{ state_attr(''sensor.modem_callerid'',''cid_number'') }}''
         '
-      target: device/Larry S7
+      target: device/Larry S10
   - service: notify.alexa_media
     data:
       target:
@@ -214,7 +214,7 @@
 #  action:
 #  - service: notify.pushbullet
 #    data_template:
-#      target: device/Larry S7
+#      target: device/Larry S10
 #      title: Home Assistant
 #      message: '"Abode event detected: {{trigger.event.data.device_name}}"'
 #

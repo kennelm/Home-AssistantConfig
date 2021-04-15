@@ -202,7 +202,23 @@ views:
                   card:          
                   - height: 150px  
                   - width: 150px
-                  
+
+              - type: "custom:button-card"
+                entity: binary_sensor.freezer
+                icon: mdi:door
+                name: Freezer Door
+                tap_action:
+                  action: more-info
+                state:
+                - value: "on"
+                  color: rgb(255, 0, 0)
+                - value: "off"
+                  color: rgb(0, 255, 0)  
+                styles:
+                  card:          
+                  - height: 150px  
+                  - width: 150px
+
               - type: "custom:button-card"
                 entity: cover.kennedy_garage  
                 name: Garage Door
@@ -284,7 +300,13 @@ views:
                       - arm_home
                       - arm_away
                       - disarm
-                    entity: alarm_control_panel.abode_alarm    
+                    entity: alarm_control_panel.abode_alarm
+#                    
+                  - type: custom:xiaomi-vacuum-card
+                    entity: vacuum.xiaomi_vacuum_cleaner
+                    image: /local/vacuum.png
+                    name: My Vacuum
+                    vendor: xiaomi                    
 
               - type: custom:simple-thermostat
                 entity: climate.thermostat
