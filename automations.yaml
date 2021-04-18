@@ -3,7 +3,7 @@
   alias: Freezer Door Check
 # poll every xx minutes to check status of the basement door   
   trigger:
-    minutes: /15
+    minutes: /5
     platform: time_pattern
   condition: 
   - condition: template
