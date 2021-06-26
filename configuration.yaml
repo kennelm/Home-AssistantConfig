@@ -22,7 +22,8 @@ lovelace:
     - url: /local/clock-card.js
       type: module   
     - url: /hacsfiles/lovelace-xiaomi-vacuum-card/xiaomi-vacuum-card.js
-      type: module      
+      type: module   
+     
 #
 history:
 #

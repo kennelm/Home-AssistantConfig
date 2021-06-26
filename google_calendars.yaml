@@ -38,3 +38,10 @@
     ignore_availability: true
     name: Birthdays
     track: true
+
+- cal_id: en.christian#holiday@group.v.calendar.google.com
+  entities:
+  - device_id: christian_holidays
+    ignore_availability: true
+    name: Christian Holidays
+    track: true

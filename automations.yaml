@@ -204,8 +204,8 @@
       - media_player.kitchen_echo
       data:
         type: announce
-      message: '"Call from... {{ state_attr(''sensor.modem_callerid'', ''cid_name'')}}"'
-      
+      message: '''Call from... {{ state_attr(''sensor.modem_callerid'', ''cid_name'')}}'''
+#
 #  id: d63195267b414e46b9660fcc2958ecfa
 #- alias: abode automation
 #  trigger:

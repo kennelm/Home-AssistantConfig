@@ -3,10 +3,10 @@ title: Home
 resources:
   - url: /hacsfiles/button-card/button-card.js
     type: module
-  - url: /local/simple-thermostat.js?v=1
+  - url: /hacsfiles/simple-thermostat/simple-thermostat.js
     type: module
-  - url: /local/mini-media-player-bundle.js?v=1.11.0
-    type: module        
+#  - url: /local/mini-media-player-bundle.js?v=1.11.0
+#    type: module        
 views:
   - path: default_view
     title: Home
