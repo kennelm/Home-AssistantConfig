@@ -188,14 +188,14 @@
 - alias: Notify CallerID
   trigger:
     platform: state
-    entity_id: sensor.modem_callerid
+    entity_id: sensor.phone_modem
     to: callerid
   action:
   - service: notify.pushbullet
     data:
       title: Home Assistant Alert!
-      message: '''Call from {{ state_attr(''sensor.modem_callerid'',''cid_name'')
-        }} at {{ state_attr(''sensor.modem_callerid'',''cid_number'') }}''
+      message: '''Call from {{ state_attr(''sensor.phone_modem'',''cid_name'')
+        }} at {{ state_attr(''sensor.phone_modem'',''cid_number'') }}''
         '
       target: device/Larry S10
   - service: notify.alexa_media
@@ -204,7 +204,7 @@
       - media_player.kitchen_echo
       data:
         type: announce
-      message: '''Call from... {{ state_attr(''sensor.modem_callerid'', ''cid_name'')}}'''
+      message: '''Call from... {{ state_attr(''sensor.phone_modem'', ''cid_name'')}}'''
 #
 #  id: d63195267b414e46b9660fcc2958ecfa
 #- alias: abode automation

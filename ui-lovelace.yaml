@@ -26,9 +26,9 @@ views:
 #            
           - type: history-graph
             title: 'Dow'
-            hours_to_show: 80
+            hours_to_show: 48
             entities:
-             - entity: yahoofinance.dji
+             - entity: sensor.yahoofinance_dji
                name: Dow
 #            
       - type: vertical-stack
@@ -52,9 +52,9 @@ views:
 #            
           - type: history-graph
             title: 'S&P'
-            hours_to_show: 80
+            hours_to_show: 48
             entities:
-             - entity: yahoofinance.gspc
+             - entity: sensor.yahoofinance_gspc
                name: S&P
 #           
 #
@@ -372,8 +372,8 @@ views:
         cards:    
           - type: glance
             entities:
-              - entity: sensor.larry_work
-                name: ND
+              - entity: sensor.larry_work_2
+                name: TC
               - entity: sensor.cindy_work
                 name: DD
               - entity: sensor.hq
@@ -388,251 +388,249 @@ views:
                 name: Dad
 #  
 ###################################################################     
-  - title: Security
-    path: security
-    badges: []
-    cards:
-
-      - type: picture-elements
-        entity: camera.garage
-        camera_image: camera.garage
-        camera_view: live   # or auto for snapshot view
-        elements:
-          - type: icon
-            icon: 'mdi:arrow-up'
-            style:
-              background: 'rgba(255, 255, 255, 0.25)'
-              right: 25px
-              bottom: 50px
-            tap_action:
-              action: call-service
-              service: amcrest.ptz_control
-              service_data:
-                entity_id: camera.garage
-                movement: up
-          - type: icon
-            icon: 'mdi:arrow-down'
-            style:
-              background: 'rgba(255, 255, 255, 0.25)'
-              right: 25px
-              bottom: 0px
-            tap_action:
-              action: call-service
-              service: amcrest.ptz_control
-              service_data:
-                entity_id: camera.garage
-                movement: down
-          - type: icon
-            icon: 'mdi:arrow-left'
-            style:
-              background: 'rgba(255, 255, 255, 0.25)'
-              right: 50px
-              bottom: 25px
-            tap_action:
-              action: call-service
-              service: amcrest.ptz_control
-              service_data:
-                entity_id: camera.garage
-                movement: left
-          - type: icon
-            icon: 'mdi:arrow-right'
-            style:
-              background: 'rgba(255, 255, 255, 0.25)'
-              right: 0px
-              bottom: 25px
-            tap_action:
-              action: call-service
-              service: amcrest.ptz_control
-              service_data:
-                entity_id: camera.garage
-                movement: right
-          - type: icon
-            icon: 'mdi:arrow-top-left'
-            style:
-              background: 'rgba(255, 255, 255, 0.25)'
-              right: 50px
-              bottom: 50px
-            tap_action:
-              action: call-service
-              service: amcrest.ptz_control
-              service_data:
-                entity_id: camera.garage
-                movement: left_up
-          - type: icon
-            icon: 'mdi:arrow-top-right'
-            style:
-              background: 'rgba(255, 255, 255, 0.25)'
-              right: 0px
-              bottom: 50px
-            tap_action:
-              action: call-service
-              service: amcrest.ptz_control
-              service_data:
-                entity_id: camera.garage
-                movement: right_up
-          - type: icon
-            icon: 'mdi:arrow-bottom-left'
-            style:
-              background: 'rgba(255, 255, 255, 0.25)'
-              right: 50px
-              bottom: 0px
-            tap_action:
-              action: call-service
-              service: amcrest.ptz_control
-              service_data:
-                entity_id: camera.garage
-                movement: left_down
-          - type: icon
-            icon: 'mdi:arrow-bottom-right'
-            style:
-              background: 'rgba(255, 255, 255, 0.25)'
-              right: 0px
-              bottom: 0px
-            tap_action:
-              action: call-service
-              service: amcrest.ptz_control
-              service_data:
-                entity_id: camera.garage
-                movement: right_down
-          - type: icon
-            icon: 'mdi:magnify'
-            style:
-              background: 'rgba(255, 255, 255, 0.25)'
-              bottom: 25px
-              right: 25px
-            tap_action:
-              action: call-service
-              service: amcrest.ptz_control
-              service_data:
-                entity_id: camera.garage
-                movement: zoom_in
-            hold_action:
-              action: call-service
-              service: amcrest.ptz_control
-              service_data:
-                entity_id: camera.garage
-                movement: zoom_out
-        
-    
-      - type: picture-elements
-        entity: camera.spare
-        camera_image: camera.spare
-        camera_view: live   # or auto for snapshot view
-        elements:
-          - type: icon
-            icon: 'mdi:arrow-up'
-            style:
-              background: 'rgba(255, 255, 255, 0.25)'
-              right: 25px
-              bottom: 50px
-            tap_action:
-              action: call-service
-              service: amcrest.ptz_control
-              service_data:
-                entity_id: camera.spare
-                movement: up
-          - type: icon
-            icon: 'mdi:arrow-down'
-            style:
-              background: 'rgba(255, 255, 255, 0.25)'
-              right: 25px
-              bottom: 0px
-            tap_action:
-              action: call-service
-              service: amcrest.ptz_control
-              service_data:
-                entity_id: camera.spare
-                movement: down
-          - type: icon
-            icon: 'mdi:arrow-left'
-            style:
-              background: 'rgba(255, 255, 255, 0.25)'
-              right: 50px
-              bottom: 25px
-            tap_action:
-              action: call-service
-              service: amcrest.ptz_control
-              service_data:
-                entity_id: camera.spare
-                movement: left
-          - type: icon
-            icon: 'mdi:arrow-right'
-            style:
-              background: 'rgba(255, 255, 255, 0.25)'
-              right: 0px
-              bottom: 25px
-            tap_action:
-              action: call-service
-              service: amcrest.ptz_control
-              service_data:
-                entity_id: camera.spare
-                movement: right
-          - type: icon
-            icon: 'mdi:arrow-top-left'
-            style:
-              background: 'rgba(255, 255, 255, 0.25)'
-              right: 50px
-              bottom: 50px
-            tap_action:
-              action: call-service
-              service: amcrest.ptz_control
-              service_data:
-                entity_id: camera.spare
-                movement: left_up
-          - type: icon
-            icon: 'mdi:arrow-top-right'
-            style:
-              background: 'rgba(255, 255, 255, 0.25)'
-              right: 0px
-              bottom: 50px
-            tap_action:
-              action: call-service
-              service: amcrest.ptz_control
-              service_data:
-                entity_id: camera.spare
-                movement: right_up
-          - type: icon
-            icon: 'mdi:arrow-bottom-left'
-            style:
-              background: 'rgba(255, 255, 255, 0.25)'
-              right: 50px
-              bottom: 0px
-            tap_action:
-              action: call-service
-              service: amcrest.ptz_control
-              service_data:
-                entity_id: camera.spare
-                movement: left_down
-          - type: icon
-            icon: 'mdi:arrow-bottom-right'
-            style:
-              background: 'rgba(255, 255, 255, 0.25)'
-              right: 0px
-              bottom: 0px
-            tap_action:
-              action: call-service
-              service: amcrest.ptz_control
-              service_data:
-                entity_id: camera.spare
-                movement: right_down
-          - type: icon
-            icon: 'mdi:magnify'
-            style:
-              background: 'rgba(255, 255, 255, 0.25)'
-              bottom: 25px
-              right: 25px
-            tap_action:
-              action: call-service
-              service: amcrest.ptz_control
-              service_data:
-                entity_id: camera.spare
-                movement: zoom_in
-            hold_action:
-              action: call-service
-              service: amcrest.ptz_control
-              service_data:
-                entity_id: camera.spare
-                movement: zoom_out          
+#  - title: Security
+#    path: security
+#    badges: []
+#    cards:
+#
+#      - type: picture-elements
+#        entity: camera.garage
+#        camera_image: garage
+#        camera_view: live   # or auto for snapshot view
+#        elements:
+#          - type: icon
+#            icon: 'mdi:arrow-up'
+#            style:
+#              background: 'rgba(255, 255, 255, 0.25)'
+#              right: 25px
+#              bottom: 50px
+#            tap_action:
+#              action: call-service
+#              service: amcrest.ptz_control
+#              service_data:
+#                entity_id: camera.garage
+#                movement: up
+#          - type: icon
+#            icon: 'mdi:arrow-down'
+#            style:
+#              background: 'rgba(255, 255, 255, 0.25)'
+#              right: 25px
+#              bottom: 0px
+#            tap_action:
+#              action: call-service
+#              service: amcrest.ptz_control
+#              service_data:
+#                entity_id: camera.garage
+#                movement: down
+#          - type: icon
+#            icon: 'mdi:arrow-left'
+#              background: 'rgba(255, 255, 255, 0.25)'
+#              right: 50px
+#              bottom: 25px
+#            tap_action:
+#              action: call-service
+#              service: amcrest.ptz_control
+#              service_data:
+#                entity_id: camera.garage
+#                movement: left
+#          - type: icon
+#            icon: 'mdi:arrow-right'
+#            style:
+#              background: 'rgba(255, 255, 255, 0.25)'
+#              right: 0px
+#              bottom: 25px
+#            tap_action:
+#              action: call-service
+#              service: amcrest.ptz_control
+#              service_data:
+#                entity_id: camera.garage
+#                movement: right
+#          - type: icon
+#            icon: 'mdi:arrow-top-left'
+#            style:
+#              background: 'rgba(255, 255, 255, 0.25)'
+#              right: 50px
+#              bottom: 50px
+#            tap_action:
+#              action: call-service
+#              service: amcrest.ptz_control
+#              service_data:
+#                entity_id: camera.garage
+#                movement: left_up
+#          - type: icon
+#            icon: 'mdi:arrow-top-right'
+#            style:
+#              background: 'rgba(255, 255, 255, 0.25)'
+#              right: 0px
+#              bottom: 50px
+#            tap_action:
+#              action: call-service
+#              service: amcrest.ptz_control
+#              service_data:
+#                entity_id: camera.garage
+#                movement: right_up
+#          - type: icon
+#            icon: 'mdi:arrow-bottom-left'
+#            style:
+#              background: 'rgba(255, 255, 255, 0.25)'
+#              right: 50px
+#              bottom: 0px
+#            tap_action:
+#              action: call-service
+#              service: amcrest.ptz_control
+#              service_data:
+#                entity_id: camera.garage
+#                movement: left_down
+#          - type: icon
+#            icon: 'mdi:arrow-bottom-right'
+#            style:
+#              background: 'rgba(255, 255, 255, 0.25)'
+#              right: 0px
+#              bottom: 0px
+#            tap_action:
+#              action: call-service
+#              service: amcrest.ptz_control
+#              service_data:
+#                entity_id: camera.garage
+#                movement: right_down
+#          - type: icon
+#            icon: 'mdi:magnify'
+#            style:
+#              background: 'rgba(255, 255, 255, 0.25)'
+#              bottom: 25px
+#              right: 25px
+#              action: call-service
+#              service: amcrest.ptz_control
+#              service_data:
+#                entity_id: camera.garage
+#                movement: zoom_in
+#            hold_action:
+#              action: call-service
+#              service: amcrest.ptz_control
+#              service_data:
+#                entity_id: camera.garage
+#                movement: zoom_out
+#        
+#    
+#      - type: picture-elements
+#        entity: camera.basement
+#        camera_image: basement
+#        camera_view: live   # or auto for snapshot view
+#        elements:
+#          - type: icon
+#            icon: 'mdi:arrow-up'
+#            style:
+#              background: 'rgba(255, 255, 255, 0.25)'
+#              right: 25px
+#              bottom: 50px
+#            tap_action:
+#              action: call-service
+#              service: amcrest.ptz_control
+#              service_data:
+#                entity_id: camera.basement
+#                movement: up
+#          - type: icon
+#            icon: 'mdi:arrow-down'
+#            style:
+#              background: 'rgba(255, 255, 255, 0.25)'
+#              right: 25px
+#              bottom: 0px
+#            tap_action:
+#              action: call-service
+#              service: amcrest.ptz_control
+#              service_data:
+#                entity_id: camera.basement
+#                movement: down
+#          - type: icon
+#            icon: 'mdi:arrow-left'
+#            style:
+#              background: 'rgba(255, 255, 255, 0.25)'
+#              right: 50px
+#              bottom: 25px
+#            tap_action:
+#              action: call-service
+#              service: amcrest.ptz_control
+#              service_data:
+#                entity_id: camera.basement
+#                movement: left
+#          - type: icon
+#            icon: 'mdi:arrow-right'
+#            style:
+#              background: 'rgba(255, 255, 255, 0.25)'
+#              right: 0px
+#              bottom: 25px
+#            tap_action:
+#              action: call-service
+#              service: amcrest.ptz_control
+#              service_data:
+#                entity_id: camera.basement
+#                movement: right
+#          - type: icon
+#            icon: 'mdi:arrow-top-left'
+#            style:
+#              background: 'rgba(255, 255, 255, 0.25)'
+#              right: 50px
+#              bottom: 50px
+#            tap_action:
+#              action: call-service
+#              service: amcrest.ptz_control
+#              service_data:
+#                entity_id: camera.basement
+#                movement: left_up
+#          - type: icon
+#            icon: 'mdi:arrow-top-right'
+#            style:
+#              background: 'rgba(255, 255, 255, 0.25)'
+#              right: 0px
+#              bottom: 50px
+#            tap_action:
+#              action: call-service
+#              service: amcrest.ptz_control
+#              service_data:
+#                entity_id: camera.basement
+#                movement: right_up
+#          - type: icon
+#            icon: 'mdi:arrow-bottom-left'
+#            style:
+#              background: 'rgba(255, 255, 255, 0.25)'
+#              right: 50px
+#              bottom: 0px
+#            tap_action:
+#              action: call-service
+#              service: amcrest.ptz_control
+#              service_data:
+#                entity_id: camera.basement
+#                movement: left_down
+#          - type: icon
+#            icon: 'mdi:arrow-bottom-right'
+#            style:
+#              background: 'rgba(255, 255, 255, 0.25)'
+#              right: 0px
+#              bottom: 0px
+#            tap_action:
+#              action: call-service
+#              service: amcrest.ptz_control
+#              service_data:
+#                entity_id: camera.basement
+#                movement: right_down
+#          - type: icon
+#            icon: 'mdi:magnify'
+#            style:
+#              background: 'rgba(255, 255, 255, 0.25)'
+#              bottom: 25px
+#              right: 25px
+#            tap_action:
+#              action: call-service
+#              service: amcrest.ptz_control
+#              service_data:
+#                entity_id: camera.basement
+#                movement: zoom_in
+#            hold_action:
+#              action: call-service
+#              service: amcrest.ptz_control
+#              service_data:
+#                entity_id: camera.basement
+#                movement: zoom_out          
 ###################################################################          
   - title: Scripts
     path: scripts

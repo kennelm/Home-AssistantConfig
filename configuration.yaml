@@ -41,12 +41,8 @@ automation: !include automations.yaml
 script: !include scripts.yaml
 #
 logger:
-   default: debug
-#
-vacuum:
-  - platform: xiaomi_miio
-    host: 192.168.1.71
-    token: !secret vacuum_token
+#   default: error
+   default: debug   
 #
 google:
   client_id: !secret google_client_id
@@ -57,26 +53,18 @@ rachio:
 #
 sun:
 #
-amcrest:
-  - host: 192.168.1.131
-    port: 8080
-    name: spare
-    username: !secret amcrest_user 
-    password: !secret amcrest_pass
-#
-  - host: 192.168.1.132
-    port: 8080
-    name: garage    
-    username: !secret amcrest_user
-    password: !secret amcrest_pass
+#amcrest:
+#  - host: 192.168.1.131
+#    port: 8080
+#    name: basement
+#    username: !secret amcrest_user 
+#    password: !secret amcrest_pass
+#  - host: 192.168.1.132
+#    port: 8080
+#    name: garage    
+#    username: !secret amcrest_user
+#    password: !secret amcrest_pass
     
-#myq garage door opener
-cover:
-  - platform: myq
-    username: !secret myq_user
-    password: !secret myq_pass 
-#    type: chamberlain
-
 # Abode alarm system
 abode:
    username: !secret abode_user
@@ -122,13 +110,7 @@ sensor:
 #    - humidity
 #    - pressure
 #    - clouds
-  - platform: yahoofinance
-    show_trending_icon: true
-    scan_interval:
-      hours: 1
-    symbols:
-      - ^DJI
-      - ^GSPC
+#  
 #
   - platform: epsonworkforce
     host: 192.168.1.160
@@ -140,8 +122,6 @@ sensor:
     - cyan
     - clean
 #
-  - platform: modem_callerid
-    device: /dev/ttyACM0
   - platform: moon
   - platform: cpuspeed
   - platform: systemmonitor
@@ -152,7 +132,7 @@ sensor:
 #
   - platform: waze_travel_time
     origin: !secret home_loc
-    destination: !secret larry_work
+    destination: !secret larry_work_loc
     region: 'US'
     name: Larry-Work
 #  
@@ -201,6 +181,12 @@ sensor:
           {{ as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom(' %I:%M %p') | replace(" 0", "") }}
         icon_template: mdi:weather-sunset-down
 #
+yahoofinance:
+  scan_interval:
+    hours: 1
+  symbols:
+    - ^DJI
+    - ^GSPC
 camera:
   - platform: generic
     still_image_url: https://radblast.wunderground.com/cgi-bin/radar/WUNIDS_map?num=6&type=N0R&mapx=400&mapy=240&brand=wui&delay=15&frame=0&scale=1&transx=0&transy=0&severe=0&smooth=0&centerx=400&centery=240&station=LWX&rainsnow=0&lightning=0&noclutter=1&showlabels=1&showstorms=0&rand=26725167
