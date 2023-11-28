@@ -72,8 +72,8 @@ views:
           - type: "custom:button-card"
             color_type: blank-card    
 #           
-          - type: custom:mini-media-player
-            entity: media_player.denon_avr_s950h
+#          - type: custom:mini-media-player
+#            entity: media_player.denon_avr_s950h
 #  
           - type: "custom:button-card"
             color_type: blank-card            
@@ -88,11 +88,11 @@ views:
                 entity: alarm_control_panel.abode_alarm                 
 #            
           - entities:
-              - entity: device_tracker.life360_larry_k
+              - entity: device_tracker.larry_k
                 name: Larry
-              - entity: device_tracker.life360_cindy
+              - entity: device_tracker.cindy
                 name: Cindy
-              - entity: device_tracker.life360_lacey_kennedy
+              - entity: device_tracker.lacey_kennedy
                 name: Lacey
             type: entities  
 
@@ -303,7 +303,7 @@ views:
                     entity: alarm_control_panel.abode_alarm
 #                    
                   - type: custom:xiaomi-vacuum-card
-                    entity: vacuum.xiaomi_vacuum_cleaner
+                    entity: vacuum.vacuum
                     image: /local/vacuum.png
                     name: My Vacuum
                     vendor: xiaomi                    
@@ -373,19 +373,17 @@ views:
           - type: glance
             entities:
               - entity: sensor.larry_work_2
-                name: TC
+                name: N-Ask
               - entity: sensor.cindy_work
                 name: DD
-              - entity: sensor.hq
-                name: HQ   
           - type: glance
             entities:
-              - entity: sensor.iccb
-                name: ICC-B
               - entity: sensor.beth_home
                 name: Beth
               - entity: sensor.dad
                 name: Dad
+              - entity: sensor.obx
+                name: OBX                
 #  
 ###################################################################     
 #  - title: Security
@@ -650,20 +648,229 @@ views:
           - entity: script.test_echo_notify
         title: test_echo_show
         type: entities
-#            
-      - type: glance
-        entities:
-          - entity: sensor.ink_level_black
-            name: black
-          - entity: sensor.ink_level_magenta
-            name: cyan
-          - entity: sensor.ink_level_cyan
-            name: magenta
-          - entity: sensor.ink_level_yellow
-            name: yellow
-          - entity: sensor.cleaning_level
-            name: clean
-        show_name: true
-        title: Epson Workforce         
+#           
+   
+###################################################################################################################    
+# NOT THE CAMERAS ON THE MOBILE APP 
+  - title: Cameras
+    path: cameras
+
+    cards:
+      - type: horizontal-stack
+        cards:
+##############
+          - type: conditional
+            conditions:
+              - entity: binary_sensor.portico_streaming_sensor
+                state: 'False'
+            card:
+              type: picture-entity
+              entity: camera.portico
+              show_state: false              
+              tap_action:
+                action: call-service
+                service: camera.turn_on
+                target:
+                  entity_id: camera.portico
+              
+          - type: conditional
+            conditions:
+              - entity: binary_sensor.portico_streaming_sensor
+                state: 'True'
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:webrtc-camera
+                  entity: camera.portico
+                  ui: true
+                - type: button
+                  name: Stop Streaming
+                  show_state: false
+                  show_icon: false
+                  tap_action:
+                    action: call-service
+                    service: camera.turn_off
+                    target:
+                      entity_id: camera.portico                  
+###########################
+          - type: conditional
+            conditions:
+              - entity: binary_sensor.foyer_streaming_sensor
+                state: 'False'
+            card:
+              type: picture-entity
+              entity: camera.foyer
+              show_state: false              
+              tap_action:
+                action: call-service
+                service: camera.turn_on
+                target:
+                  entity_id: camera.foyer
+              
+          - type: conditional
+            conditions:
+              - entity: binary_sensor.foyer_streaming_sensor
+                state: 'True'
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:webrtc-camera
+                  entity: camera.foyer
+                  ui: true                  
+                - type: button
+                  name: Stop Streaming
+                  show_state: false
+                  show_icon: false
+                  tap_action:
+                    action: call-service
+                    service: camera.turn_off
+                    target:
+                      entity_id: camera.foyer
+
+#
+      - type: horizontal-stack
+        cards:
+
+###############
+          - type: conditional
+            conditions:
+              - entity: binary_sensor.backyard_streaming_sensor
+                state: 'False'
+            card:
+              type: picture-entity
+              entity: camera.backyard
+              show_state: false  
+              tap_action:
+                action: call-service
+                service: camera.turn_on
+                target:
+                  entity_id: camera.backyard
+              
+          - type: conditional
+            conditions:
+              - entity: binary_sensor.backyard_streaming_sensor
+                state: 'True'
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:webrtc-camera
+                  entity: camera.backyard
+                  ui: true
+                - type: button
+                  name: Stop Streaming
+                  show_state: false
+                  show_icon: false
+                  tap_action:
+                    action: call-service
+                    service: camera.turn_off
+                    target:
+                      entity_id: camera.backyard
+##############                      
+
+          - type: conditional
+            conditions:
+              - entity: binary_sensor.kitchen_streaming_sensor
+                state: 'False'
+            card:
+              type: picture-entity
+              entity: camera.kitchen
+              name: Kitchen
+              show_state: false              
+              tap_action:
+                action: call-service
+                service: camera.turn_on
+                target:
+                  entity_id: camera.kitchen
+              
+          - type: conditional
+            conditions:
+              - entity: binary_sensor.kitchen_streaming_sensor
+                state: 'True'
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:webrtc-camera
+                  entity: camera.kitchen
+                  ui: true
+                - type: button
+                  name: Stop Streaming
+                  show_state: false
+                  show_icon: false
+                  tap_action:
+                    action: call-service
+                    service: camera.turn_off
+                    target:
+                      entity_id: camera.kitchen                  
+###########################
+      - type: horizontal-stack
+        cards:
+          - type: conditional
+            conditions:
+              - entity: binary_sensor.driveway_streaming_sensor
+                state: 'False'
+            card:
+              type: picture-entity
+              entity: camera.driveway
+              show_state: false              
+              tap_action:
+                action: call-service
+                service: camera.turn_on
+                target:
+                  entity_id: camera.driveway
+              
+          - type: conditional
+            conditions:
+              - entity: binary_sensor.driveway_streaming_sensor
+                state: 'True'
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:webrtc-camera
+                  entity: camera.driveway
+                  ui: true                  
+                - type: button
+                  name: Stop Streaming
+                  show_state: false
+                  show_icon: false
+                  tap_action:
+                    action: call-service
+                    service: camera.turn_off
+                    target:
+                      entity_id: camera.driveway
+###########################
+      - type: horizontal-stack
+        cards:
+          - type: conditional
+            conditions:
+              - entity: binary_sensor.doorbell_ringing
+                state: 'off'
+            card:
+              type: picture-entity
+              entity: camera.doorbell
+              show_state: false              
+              tap_action:
+                action: call-service
+                service: camera.turn_on
+                target:
+                  entity_id: camera.doorbell
+          - type: conditional
+            conditions:
+              - entity: binary_sensor.doorbell_ringing
+                state: 'on'
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:webrtc-camera
+                  entity: camera.doorbell
+                  ui: true                  
+                - type: button
+                  name: Stop Streaming
+                  show_state: false
+                  show_icon: false
+                  tap_action:
+                    action: call-service
+                    service: camera.turn_off
+                    target:
+                      entity_id: camera.doorbell
 ###################################################################
 background: var(--background-image)

@@ -1,6 +1,6 @@
 
 # Configure a default setup of Home Assistant (frontend, api, etc)
-#default_config:
+default_config:
 #
 #cloud:
 #
@@ -8,8 +8,27 @@
 # http:
 #   base_url: example.duckdns.org:8123
 
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 192.168.1.199      # Add the IP address of the proxy server
+#    - 172.30.33.0/24  # You may also provide the subnet mask
+    
 lovelace:
   mode: yaml
+  dashboards:
+#    overview-dash:
+#    mode: yaml
+#      title: Overview
+#      icon: fas:city
+#      show_in_sidebar: true
+#      filename: ui-lovelace.yaml
+    camera-dash:
+      mode: yaml
+      title: Cameras
+#      icon: mdi:time
+      show_in_sidebar: true
+      filename: my-cameras.yaml
   resources:
     - url: /local/mini-media-player-bundle.js
       type: module
@@ -22,10 +41,31 @@ lovelace:
     - url: /local/clock-card.js
       type: module   
     - url: /hacsfiles/lovelace-xiaomi-vacuum-card/xiaomi-vacuum-card.js
-      type: module   
-     
+      type: module
+    - url: /hacsfiles/lovelace-mushroom/mushroom.js
+      type: module
+    - url: /webrtc/webrtc-camera.js
+      type: module
 #
+#
+homeassistant:
+  external_url: "https://hooks.nabu.casa"
+  currency: USD  
+  country: US
+    
+binary_sensor:
+  - platform: template
+    sensors:
+      alexa_ha_dining_lamp:
+          friendly_name: "Alexa HA - Dining Room Lamp"
+          device_class: garage_door
+          value_template: "{{ is_state('input_boolean.alexa_ha_dining_lamp', 'on') }}"
+
+ffmpeg:
+
 history:
+#
+system_health:
 #
 frontend:
   themes: !include_dir_merge_named themes
@@ -41,39 +81,53 @@ automation: !include automations.yaml
 script: !include scripts.yaml
 #
 logger:
-   default: error
-#   default: debug   
+   default: info
+   logs:
+     custom_components.eufy_security: debug
+     custom_components.webrtc: debug
 #
-google:
-  client_id: !secret google_client_id
-  client_secret: !secret google_client_secret
-#
-rachio:
-  api_key: !secret rachio_key
+#rachio:
+#  api_key: !secret rachio_key
 #
 sun:
 #
-#amcrest:
-#  - host: 192.168.1.131
-#    port: 8080
-#    name: basement
-#    username: !secret amcrest_user 
-#    password: !secret amcrest_pass
-#  - host: 192.168.1.132
-#    port: 8080
-#    name: garage    
-#    username: !secret amcrest_user
-#    password: !secret amcrest_pass
+amcrest:
+  - host: 192.168.1.131
+    port: 8080
+    name: cam-1
+    username: !secret amcrest_user 
+    password: !secret amcrest_pass
+    resolution: high
+    stream_source: rtsp    
+    binary_sensors:
+      - motion_detected
+      - crossline_detected
+      - online    
+    sensors:
+      - ptz_preset
+  - host: 192.168.1.132
+    port: 8080
+    name: cam-2    
+    username: !secret amcrest_user
+    password: !secret amcrest_pass
+    resolution: high
+    stream_source: rtsp     
+    binary_sensors:
+      - motion_detected
+      - crossline_detected
+      - online
+    sensors:
+      - ptz_preset      
     
 # Abode alarm system
-abode:
-   username: !secret abode_user
-   password: !secret abode_pass 
+#abode:
+#   username: !secret abode_user
+#   password: !secret abode_pass 
 #
-notify:
-  - platform: pushbullet
-    name: pushbullet
-    api_key: !secret pushbullet_api
+#notify:
+#  - platform: pushbullet
+#    name: pushbullet
+#    api_key: !secret pushbullet_api
 #
 # Device tracking
 zone:
@@ -110,8 +164,8 @@ sensor:
 #    - humidity
 #    - pressure
 #    - clouds
-#  
 #
+
   - platform: epsonworkforce
     host: 192.168.1.160
     monitored_conditions:
@@ -122,60 +176,22 @@ sensor:
     - cyan
     - clean
 #
-  - platform: moon
-  - platform: cpuspeed
   - platform: systemmonitor
     resources:
       - type: disk_use_percent
         arg: /home
       - type: memory_free
-#
-  - platform: waze_travel_time
-    origin: !secret home_loc
-    destination: !secret larry_work_loc
-    region: 'US'
-    name: Larry-Work
-#  
-  - platform: waze_travel_time
-    origin: !secret home_loc
-    destination: !secret cindy_work
-    region: 'US'
-    name: Cindy-Work
-#
-  - platform: waze_travel_time
-    origin: !secret home_loc
-    destination: !secret beth_loc
-    region: 'US'
-    name: Beth-Home
-#
-  - platform: waze_travel_time
-    origin: !secret home_loc
-    destination: !secret hq_loc
-    region: 'US'
-    name: hq
-#
-  - platform: waze_travel_time
-    origin: !secret home_loc
-    destination: !secret iccb_loc
-    region: 'US'
-    name: iccb
-#
-  - platform: waze_travel_time
-    origin: !secret home_loc
-    destination: !secret dad_loc
-    region: 'US'
-    name: dad
 #    
   - platform: template
     sensors:
       nextsunrise:
-        entity_id: sun.sun
+#        entity_id: sun.sun
         friendly_name: 'Next Sunrise'
         value_template: >
           {{ as_timestamp(states.sun.sun.attributes.next_rising) | timestamp_custom(' %I:%M %p') | replace(" 0", "") }}
         icon_template: mdi:weather-sunset-up
       nextsunset:
-        entity_id: sun.sun
+#        entity_id: sun.sun
         friendly_name: 'Next Sunset'
         value_template: >
           {{ as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom(' %I:%M %p') | replace(" 0", "") }}
@@ -187,43 +203,24 @@ yahoofinance:
   symbols:
     - ^DJI
     - ^GSPC
-camera:
-  - platform: generic
-    still_image_url: https://radblast.wunderground.com/cgi-bin/radar/WUNIDS_map?num=6&type=N0R&mapx=400&mapy=240&brand=wui&delay=15&frame=0&scale=1&transx=0&transy=0&severe=0&smooth=0&centerx=400&centery=240&station=LWX&rainsnow=0&lightning=0&noclutter=1&showlabels=1&showstorms=0&rand=26725167
-    name: weather-sterling
+#camera:
+#  - platform: generic
+#    still_image_url: https://radblast.wunderground.com/cgi-bin/radar/WUNIDS_map?num=6&type=N0R&mapx=400&mapy=240&brand=wui&delay=15&frame=0&scale=1&transx=0&transy=0&severe=0&smooth=0&centerx=400&centery=240&station=LWX&rainsnow=0&lightning=0&noclutter=1&showlabels=1&showstorms=0&rand=26725167
+#    name: weather-sterling
 #
-  - platform: generic
-    still_image_url: https://radblast.wunderground.com/cgi-bin/radar/WUNIDS_map?num=6&type=N0R&mapx=400&mapy=240&brand=wui&delay=15&frame=0&scale=1&transx=0&transy=0&severe=0&smooth=0&centerx=400&centery=240&station=FCX&rainsnow=0&lightning=0&noclutter=1&showlabels=1&showstorms=0&rand=26725166
-    name: weather-roanoke  
+#  - platform: generic
+#    still_image_url: https://radblast.wunderground.com/cgi-bin/radar/WUNIDS_map?num=6&type=N0R&mapx=400&mapy=240&brand=wui&delay=15&frame=0&scale=1&transx=0&transy=0&severe=0&smooth=0&centerx=400&centery=240&station=FCX&rainsnow=0&lightning=0&noclutter=1&showlabels=1&showstorms=0&rand=26725166
+#    name: weather-roanoke
+    
 #
-nexia:
-  username: !secret nexia_user
-  password: !secret nexia_pass 
-#
-# Example configuration.yaml entry
-climate:
-  - platform: honeywell
-    username: !secret tcc_user
-    password: !secret tcc_pass  
-#
-#alexa_media:
-#  accounts:
-#    - email: !secret amazon_user 
-#      password: !secret amazon_pass  
-#      url: amazon.com
-#
+#nexia:
+#  username: !secret nexia_user
+#  password: !secret nexia_pass 
 #
 shell_command:
 #  caller_id: cid.sh '{{ states.modem_callerid|selectattr('attributes.cid_name') }}'  
   caller_id: /config/cid.sh '{{ state_attr('sensor.modem_callerid','cid_name') }}'  
 #
 ###
-#binary_sensor:
-#  - platform: template
-#    sensors:
-#      basement:
-#        value_template: >-
-#          {{ is_state('binary_sensor.basement', 'on') }}
-###
-hacs:
-  token: !secret hacs
+#hacs:
+#  token: !secret hacs

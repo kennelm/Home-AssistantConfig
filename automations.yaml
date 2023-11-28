@@ -1,19 +1,17 @@
-#
 - id: '4348347893743897453'
   alias: Freezer Door Check
-# poll every xx minutes to check status of the basement door   
   trigger:
-    minutes: /5
+  - minutes: /5
     platform: time_pattern
-  condition: 
+  condition:
   - condition: template
-    value_template: "{{ is_state('binary_sensor.freezer', 'on') }}"
+    value_template: '{{ is_state(''binary_sensor.freezer'', ''on'') }}'
   action:
   - service: notify.pushbullet
     data:
       title: Freezer Door is Open
       message: The freezer door is open
-      target: device/Larry S10
+      target: device/Samsung S22
   - service: notify.alexa_media
     data:
       target:
@@ -21,23 +19,21 @@
       - media_player.bedroom_echo
       data:
         type: announce
-      message: "The freezer door is open" 
-#
+      message: The freezer door is open
 - id: '434834789374389743'
   alias: Basement Door Check
-# poll every xx minutes to check status of the basement door   
   trigger:
-    minutes: /15
+  - minutes: /15
     platform: time_pattern
-  condition: 
+  condition:
   - condition: template
-    value_template: "{{ is_state('binary_sensor.basement', 'on') }}"
+    value_template: '{{ is_state(''binary_sensor.basement'', ''on'') }}'
   action:
   - service: notify.pushbullet
     data:
       title: Basement Door Open
       message: The basement door is open
-      target: device/Larry S10
+      target: device/Samsung S22
   - service: notify.alexa_media
     data:
       target:
@@ -45,27 +41,26 @@
       - media_player.bedroom_echo
       data:
         type: announce
-      message: "The basement door is open" 
-#
+      message: The basement door is open
 - id: '4348347893743897432'
   alias: Rear Door Check
   trigger:
     minutes: /15
     platform: time_pattern
-  condition: 
+  condition:
     condition: and
     conditions:
-      - condition: template
-        value_template: "{{ is_state('binary_sensor.rear_doors', 'on') }}"
-      - condition: time
-        after: '21:00:00'
-        before: '23:59:59'
+    - condition: template
+      value_template: '{{ is_state(''binary_sensor.rear_doors'', ''on'') }}'
+    - condition: time
+      after: '21:00:00'
+      before: '23:59:59'
   action:
   - service: notify.pushbullet
     data:
       title: Rear Door is Open
       message: One of the back doors is open
-      target: device/Larry S10
+      target: device/Samsung S22
   - service: notify.alexa_media
     data:
       target:
@@ -73,28 +68,26 @@
       - media_player.bedroom_echo
       data:
         type: announce
-      message: "A rear door is open"      
-#
-#
+      message: A rear door is open
 - id: '43483478937438974322'
   alias: Front Door Check
   trigger:
     minutes: /15
     platform: time_pattern
-  condition: 
+  condition:
     condition: and
     conditions:
-      - condition: template
-        value_template: "{{ is_state('binary_sensor.front_doors', 'on') }}"
-      - condition: time
-        after: '21:00:00'
-        before: '23:59:59'        
+    - condition: template
+      value_template: '{{ is_state(''binary_sensor.front_doors'', ''on'') }}'
+    - condition: time
+      after: '21:00:00'
+      before: '23:59:59'
   action:
   - service: notify.pushbullet
     data:
       title: Front Door is Open
       message: One of the front doors is open
-      target: device/Larry S10
+      target: device/Samsung S22
   - service: notify.alexa_media
     data:
       target:
@@ -102,8 +95,7 @@
       - media_player.bedroom_echo
       data:
         type: announce
-      message: "A front door is open"      
-#
+      message: A front door is open
 - alias: home assistant reboot
   trigger:
     platform: homeassistant
@@ -113,30 +105,8 @@
     data:
       title: Home assistant started
       message: Home assistant started!
-      target: device/Larry S10
-      
-#  id: 445f04a31d194051881be8b5c4c2ab28
-#- alias: nobody is home and the garage door is open
-#  initial_state: true
-#  trigger:
-#    platform: event
-#    event_type: abode_automation
-#    event_data:
-#      device_name: Nobody is Home
-#  condition:
-#  - condition: state
-#    entity_id: cover.kennedy_garage
-#    state: open
-#  action:
-#  - service: notify.pushbullet
-#    data:
-#      title: Home Assistant Alert!
-#      message: No one is home and the garage door is open.  Closing door now.
-#      target: device/Larry S10
-#  - service: cover.close_cover
-#    entity_id: cover.kennedy_garage
-#
-#
+      target: device/Samsung S22
+  id: e86003d0a6424d7197135806b4134f07
 - alias: thermostats conflict
   trigger:
     platform: sun
@@ -146,21 +116,19 @@
     data:
       title: Home Assistant Alert!
       message: The thermostats are in conflicting modes.
-      target: device/Larry S10
+      target: device/Samsung S22
   condition:
     condition: and
     conditions:
     - condition: state
       entity_id: climate.thermostat
-      attribute: 'hvac_modes'      
+      attribute: hvac_modes
       state: cool
     - condition: state
       entity_id: climate.thermostat_1_nativezone
-      attribute: 'hvac_modes'      
+      attribute: hvac_modes
       state: heat
-#
-#
-#
+  id: 39be07a61df24031985c98e52524a828
 - alias: thermostats conflict-2
   trigger:
     platform: sun
@@ -170,20 +138,18 @@
     data:
       title: Home Assistant Alert!
       message: The thermostats are in conflicting modes.
-      target: device/Larry S10
+      target: device/Samsung S22
   condition:
     condition: and
     conditions:
     - condition: state
       entity_id: climate.thermostat
-      attribute: 'hvac_modes'      
+      attribute: hvac_modes
       state: heat
     - condition: state
       entity_id: climate.thermostat_1_nativezone
-      attribute: 'hvac_modes'      
+      attribute: hvac_modes
       state: cool
-#
-#
   id: 494a550140f74ebf83ed5bca2dac4c9e
 - alias: Notify CallerID
   trigger:
@@ -194,27 +160,377 @@
   - service: notify.pushbullet
     data:
       title: Home Assistant Alert!
-      message: '''Call from {{ state_attr(''sensor.phone_modem'',''cid_name'')
-        }} at {{ state_attr(''sensor.phone_modem'',''cid_number'') }}''
-        '
-      target: device/Larry S10
+      message: '''Call from {{ state_attr(''sensor.phone_modem'',''cid_name'') }}
+        at {{ state_attr(''sensor.phone_modem'',''cid_number'') }}'' '
+      target: device/Samsung S22
   - service: notify.alexa_media
     data:
       target:
       - media_player.kitchen_echo
+      - media_player.bedroom_echo
       data:
         type: announce
       message: '''Call from... {{ state_attr(''sensor.phone_modem'', ''cid_name'')}}'''
-#
-#  id: d63195267b414e46b9660fcc2958ecfa
-#- alias: abode automation
-#  trigger:
-#    platform: event
-#    event_type: abode_automation
-#  action:
-#  - service: notify.pushbullet
-#    data_template:
-#      target: device/Larry S10
-#      title: Home Assistant
-#      message: '"Abode event detected: {{trigger.event.data.device_name}}"'
-#
+  id: ea7e0cb5e20d4d949b3b1da436808fe5
+- id: abode_alarm_triggered
+  alias: ALARM - abode alarm triggered
+  initial_state: 'on'
+  trigger:
+    platform: event
+    event_type: abode_alarm
+  action:
+  - service: notify.alexa_media
+    data:
+      target:
+      - media_player.kitchen_echo
+      - media_player.bedroom_echo
+      data:
+        type: announce
+      message: "{% if is_state('binary_sensor.rear_doors', 'on') %}\n  'Rear door!
+        \ Rear door!  Rear door!'\n{% elif is_state('binary_sensor.front_doors', 'on')
+        %}  \n  'Front door!  Front door! Front door!'\n{% elif is_state('binary_sensor.basement_door',
+        'on') %}  \n  'Basement door!  Basement door! Basement door!'\n{% else %}\n
+        \ 'Window!  Window!  Window!'\n{% endif %}\n"
+  - service: switch.turn_on
+    entity_id: switch.dining_light, switch.family_room, switch.laundry_room_light,
+      switch.living_room_light
+- id: '1658246378421'
+  alias: Backup-System
+  description: ''
+  trigger:
+  - platform: time
+    at: 04:00:00
+  condition:
+  - condition: time
+    before: 05:00:00
+    weekday:
+    - sun
+    after: 03:00:00
+  action:
+  - service: backup.create
+    data: {}
+  mode: single
+- id: '1658592925223'
+  alias: lights on at dusk
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: -00:30:00
+  condition: []
+  action:
+  - service: input_boolean.turn_on
+    data: {}
+    target:
+      entity_id: input_boolean.alexa_ha_dining_lamp
+  - service: homeassistant.turn_on
+    data: {}
+    target:
+      device_id:
+      - 2e87b075c40642979cb699da77d60470
+      - eabb12ba1f79476da595771159cd872f
+  - service: input_boolean.turn_on
+    data: {}
+    target:
+      entity_id: input_boolean.ha_cabinet_light
+  mode: single
+- id: '1658603756698'
+  alias: lights off at bedtime
+  description: ''
+  trigger:
+  - platform: time
+    at: '22:50:00'
+  condition: []
+  action:
+  - service: homeassistant.turn_off
+    data: {}
+    target:
+      entity_id:
+      - switch.laundry_room_light
+      - switch.dining_light
+      - switch.living_room_light
+  - service: input_boolean.turn_off
+    data: {}
+    target:
+      entity_id: input_boolean.alexa_ha_dining_lamp
+  - service: input_boolean.turn_off
+    data: {}
+    target:
+      entity_id: input_boolean.ha_cabinet_light
+  - service: input_boolean.turn_off
+    data: {}
+    target:
+      entity_id: input_boolean.ha_tree
+  mode: single
+- id: '1658606632711'
+  alias: Lock Front Door
+  description: ''
+  trigger:
+  - platform: time
+    at: '23:55:00'
+  - platform: time
+    at: '22:00:00'
+  condition:
+  - condition: state
+    entity_id: lock.front_door
+    state: unlocked
+  - condition: state
+    entity_id: binary_sensor.front_doors
+    state: 'off'
+  action:
+  - service: lock.lock
+    data: {}
+    target:
+      entity_id: lock.front_door
+  mode: single
+- id: '1658606961143'
+  alias: garage light off at dawn
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunrise
+    offset: 0
+  condition:
+  - condition: state
+    entity_id: switch.garage_light
+    state: 'on'
+  action:
+  - service: switch.toggle
+    data: {}
+    target:
+      entity_id: switch.garage_light
+  mode: single
+- id: '1658607917751'
+  alias: arm to night
+  description: ''
+  trigger:
+  - platform: time
+    at: '23:59:00'
+  condition:
+  - condition: state
+    entity_id: alarm_control_panel.abode_alarm
+    state: disarmed
+  action:
+  - service: alarm_control_panel.alarm_arm_home
+    data: {}
+    target:
+      entity_id: alarm_control_panel.abode_alarm
+  mode: single
+- id: '1658608189215'
+  alias: disarm mornings
+  description: ''
+  trigger:
+  - platform: time
+    at: 05:30:00
+  condition:
+  - condition: state
+    entity_id: alarm_control_panel.abode_alarm
+    state: armed_home
+  action:
+  - service: alarm_control_panel.alarm_disarm
+    data: {}
+    target:
+      entity_id: alarm_control_panel.abode_alarm
+  - service: homeassistant.turn_on
+    data: {}
+    target:
+      entity_id: switch.laundry_room_light
+  mode: single
+- id: '1658667804089'
+  alias: Test lamp on
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.alexa_ha_dining_lamp
+    to: 'On'
+  condition: []
+  action:
+  - service: homeassistant.turn_on
+    data: {}
+    target:
+      entity_id: binary_sensor.alexa_ha_dining_lamp
+  mode: single
+- id: '1658668189675'
+  alias: Test lamp off
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.alexa_ha_dining_lamp
+    to: 'Off'
+  condition: []
+  action:
+  - service: homeassistant.turn_off
+    data: {}
+    target:
+      entity_id: binary_sensor.alexa_ha_dining_lamp
+  mode: single
+- id: '1660441171222'
+  alias: 'lock door mid morning '
+  description: ''
+  trigger:
+  - platform: time
+    at: 08:15:00
+  condition:
+  - condition: state
+    entity_id: lock.front_door
+    state: unlocked
+  - condition: state
+    entity_id: binary_sensor.front_doors
+    state: 'off'
+  action:
+  - service: lock.lock
+    data: {}
+    target:
+      entity_id: lock.front_door
+  mode: single
+- id: '1661477411419'
+  alias: turn on outside lights when rear doors open
+  description: triggers a routine in alexa
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.rear_doors
+    to: 'on'
+  condition:
+  - condition: sun
+    after: sunset
+  action:
+  - service: homeassistant.turn_on
+    data: {}
+    target:
+      entity_id: input_boolean.alexa_ha_outside_light
+  mode: single
+- id: '1661477569383'
+  alias: turn off outside lights when rear doors close
+  description: triggers a routine in alexa
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.rear_doors
+    to: 'off'
+  condition:
+  - condition: sun
+    after: sunset
+  action:
+  - service: homeassistant.turn_off
+    data: {}
+    target:
+      entity_id: input_boolean.alexa_ha_outside_light
+  mode: single
+- id: '1665406027946'
+  alias: Tv on turn on cabinet
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - media_player.denon_avr_s950h
+    to: 'on'
+  condition:
+  - condition: time
+    before: '22:00:00'
+    after: '12:00:00'
+    weekday:
+    - sun
+    - sat
+    - fri
+    - thu
+    - wed
+    - tue
+    - mon
+  - condition: state
+    entity_id: device_tracker.life360_cindy
+    state: home
+    enabled: false
+  action:
+  - service: input_boolean.turn_on
+    data: {}
+    target:
+      entity_id: input_boolean.ha_cabinet_light
+  mode: single
+- id: '1665409586785'
+  alias: afternoon turn on cabinet if tv on
+  description: ''
+  trigger:
+  - platform: time_pattern
+    minutes: /30
+  condition:
+  - condition: state
+    entity_id: media_player.denon_avr_s950h
+    state: 'on'
+  - condition: state
+    entity_id: input_boolean.ha_cabinet_light
+    state: 'off'
+    enabled: false
+  - condition: time
+    after: '12:00:00'
+    before: '20:00:00'
+    enabled: true
+  action:
+  - service: input_boolean.turn_on
+    data: {}
+    target:
+      entity_id: input_boolean.ha_cabinet_light
+  mode: single
+- id: '1665538476621'
+  alias: TV off
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - media_player.denon_avr_s950h
+    to: 'off'
+  condition: []
+  action:
+  - service: input_boolean.turn_off
+    data: {}
+    target:
+      entity_id: input_boolean.ha_cabinet_light
+  mode: single
+- id: '1671293939018'
+  alias: turn on tree
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: 0
+  condition: []
+  action:
+  - service: homeassistant.turn_on
+    data: {}
+    target:
+      entity_id: input_boolean.ha_tree
+  mode: single
+- id: '1671294041751'
+  alias: turn tree off
+  description: ''
+  trigger:
+  - platform: time
+    at: '22:45:00'
+  condition: []
+  action:
+  - service: homeassistant.turn_off
+    data: {}
+    target:
+      entity_id: input_boolean.ha_tree
+  mode: single
+- id: '1671295260126'
+  alias: Weekend cabinet
+  description: ''
+  trigger:
+  - platform: time
+    at: '10:00:00'
+  condition:
+  - condition: time
+    before: 00:00:00
+    weekday:
+    - sun
+    - sat
+    after: 00:00:00
+  action:
+  - service: homeassistant.turn_on
+    data: {}
+    target:
+      entity_id: input_boolean.ha_cabinet_light
+  mode: single

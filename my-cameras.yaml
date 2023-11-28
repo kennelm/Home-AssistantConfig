@@ -1,0 +1,238 @@
+
+views:
+  - path: my-cameras
+    title: Cameras
+    panel: false
+    badges: []
+    cards:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: back
+        alignment: center          
+####################################################          
+      - type: horizontal-stack
+        cards:
+##############
+          - type: conditional
+            conditions:
+              - entity: camera.portico
+                state: idle
+            card:
+              show_state: true
+              show_name: true
+              type: picture-entity
+              entity: camera.portico
+              tap_action:
+                action: call-service
+                service: camera.turn_on
+                data: {}
+                target:
+                  entity_id: camera.portico
+              
+          - type: conditional
+            conditions:
+              - entity: camera.portico
+                state: streaming
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:webrtc-camera
+                  entity: camera.portico
+                  ui: true
+                - type: button
+                  name: Stop Streaming
+                  show_state: false
+                  show_icon: false
+                  tap_action:
+                    action: call-service
+                    service: camera.turn_off
+                    data: {}
+                    target:
+                      entity_id: camera.portico                  
+###########################
+      - type: horizontal-stack
+        cards:
+          - type: conditional
+            conditions:
+              - entity: camera.foyer
+                state: idle
+            card:
+              show_state: true
+              show_name: true
+              type: picture-entity
+              entity: camera.foyer
+              tap_action:
+                action: call-service
+                service: camera.turn_on
+                data: {}
+                target:
+                  entity_id: camera.foyer
+              
+          - type: conditional
+            conditions:
+              - entity: camera.foyer
+                state: streaming
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:webrtc-camera
+                  entity: camera.foyer
+                - type: button
+                  name: Stop Streaming
+                  show_state: false
+                  show_icon: false
+                  tap_action:
+                    action: call-service
+                    service: camera.turn_off
+                    data: {}
+                    target:
+                      entity_id: camera.foyer
+
+#
+###############
+      - type: horizontal-stack
+        cards:
+          - type: conditional
+            conditions:
+              - entity: camera.backyard
+                state: idle
+            card:
+              show_state: true
+              show_name: true
+              type: picture-entity
+              entity: camera.backyard
+              tap_action:
+                action: call-service
+                service: camera.turn_on
+                data: {}
+                target:
+                  entity_id: camera.backyard
+              
+          - type: conditional
+            conditions:
+              - entity: camera.backyard
+                state: streaming
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:webrtc-camera
+                  entity: camera.backyard
+                - type: button
+                  name: Stop Streaming
+                  show_state: false
+                  show_icon: false
+                  tap_action:
+                    action: call-service
+                    service: camera.turn_off
+                    data: {}
+                    target:
+                      entity_id: camera.backyard
+##############                      
+      - type: horizontal-stack
+        cards:
+          - type: conditional
+            conditions:
+              - entity: camera.kitchen
+                state: idle
+            card:
+              show_state: true
+              show_name: true
+              type: picture-entity
+              entity: camera.kitchen
+              tap_action:
+                action: call-service
+                service: camera.turn_on
+                data: {}
+                target:
+                  entity_id: camera.kitchen
+              
+          - type: conditional
+            conditions:
+              - entity: camera.kitchen
+                state: streaming
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:webrtc-camera
+                  entity: camera.kitchen
+                - type: button
+                  name: Stop Streaming
+                  show_state: false
+                  show_icon: false
+                  tap_action:
+                    action: call-service
+                    service: camera.turn_off
+                    data: {}
+                    target:
+                      entity_id: camera.kitchen  
+###########################
+      - type: horizontal-stack
+        cards:
+          - type: conditional
+            conditions:
+              - entity: camera.driveway
+                state: idle
+            card:
+              show_state: true
+              show_name: true
+              type: picture-entity
+              entity: camera.driveway
+              tap_action:
+                action: call-service
+                service: camera.turn_on
+                data: {}
+                target:
+                  entity_id: camera.driveway
+              
+          - type: conditional
+            conditions:
+              - entity: camera.driveway
+                state: streaming
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:webrtc-camera
+                  entity: camera.driveway
+                - type: button
+                  name: Stop Streaming
+                  show_state: false
+                  show_icon: false
+                  tap_action:
+                    action: call-service
+                    service: camera.turn_off
+                    data: {}
+                    target:
+                      entity_id: camera.driveway     
+###########################################################
+####### amcrest
+   
+#      - type: vertical-stack
+#        cards:
+#         - type: picture-entity
+#           entity: camera.cam_2
+#           name: RangerCam
+#           camera_image: camera.cam_2
+#           show_state: true
+#           show_name: true
+#           camera_view: auto
+#         - type: picture-entity
+#           entity: camera.cam_1
+#           name: BasementCam
+#           camera_image: camera.cam_1
+#           show_state: true
+#           show_name: true
+#           camera_view: auto
+       
+#      - type: horizontal-stack
+#        cards:
+#          - type: 'custom:webrtc-camera'
+#            #entity: camera.cam-1
+#            url: !secret amcrest-1        
+#          - type: 'custom:webrtc-camera'
+#            #entity: camera.cam-2
+#            url: !secret amcrest-2
+
+            
+###################################################################
+background: var(--background-image)
+#
